@@ -1,0 +1,6 @@
+1. OutlinedButton
+- https://www.javatpoint.com/flutter-buttons
+- https://api.flutter.dev/flutter/material/OutlinedButton-class.html
+- https://www.youtube.com/watch?v=wvhkomzr0dU
+- https://www.youtube.com/watch?v=xoT7l0C8MS4
+- https://www.youtube.com/watch?v=nDmGGi_RlDM
