@@ -1,3 +1,5 @@
+import 'package:ewallet/transferOWO.dart';
+import 'package:ewallet/transferbank.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -49,7 +51,12 @@ class _TransferState extends State<Transfer> {
                   children: [
                     SizedBox(height: 20),
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => transferOWO()));
+                      },
                       icon: Icon(
                         Icons.mobile_screen_share,
                         color: Colors.green,
@@ -69,7 +76,12 @@ class _TransferState extends State<Transfer> {
                       height: 20,
                     ),
                     ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => transferBank()));
+                      },
                       icon: Icon(
                         Icons.museum_outlined,
                         color: Colors.green,
