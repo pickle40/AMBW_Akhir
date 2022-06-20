@@ -1,13 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewallet/Transfer.dart';
+import 'package:ewallet/database/dbservices.dart';
 import 'package:ewallet/deposit.dart';
 import 'package:ewallet/history.dart';
+import 'package:ewallet/home.dart';
+import 'package:ewallet/register.dart';
 import 'package:ewallet/tarikDana.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+import 'database/dbUser.dart';
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -24,369 +35,232 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  // text controller
+  final _telpcontroller = TextEditingController();
+  final _passcontroller = TextEditingController();
+
+  // Future signIn() async {
+  //   await FirebaseAuth.instance.signInWithEmailAndPassword(
+  //     email: _emailcontroller.text.trim(),
+  //     password: _passcontroller.text.trim(),
+  //   );
+  // }
+
+  bool password = false;
+
+  @override
+  void dispose() {
+    _telpcontroller.dispose();
+    _passcontroller.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("E-Wallet"),
+        centerTitle: true,
+        title: Text("oWopay"),
+        backgroundColor: Color.fromARGB(255, 82, 10, 4),
       ),
-      body: Wrap(
-        children: [
-          Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(15, 20, 10, 50),
+      backgroundColor: Colors.red[900],
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Text, oWopay LOGO
+                Text(
+                  'oWo Pay',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w100,
+                    fontSize: 50,
+                    color: Colors.white,
+                  ),
+                ),
+                SizedBox(height: 30),
+
+                // e-mail
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
                     decoration: BoxDecoration(
-                        color: Colors.lightBlue.shade600,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(30),
-                            bottomLeft: Radius.circular(30))),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 10),
-                              child: Text(
-                                "E-Waller Cash",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 16, color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(bottom: 5),
-                              child: Text(
-                                "Rp 38.100",
-                                style: TextStyle(
-                                    fontSize: 24,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              child: Text(
-                                "Points 518",
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.white),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
+                      color: Colors.grey[100],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ))
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset:
-                                  Offset(0, 3), // changes position of shadow
-                            ),
-                          ],
-                          borderRadius: BorderRadius.circular(10)),
-                      padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                      margin: EdgeInsets.fromLTRB(15, 0, 15, 10),
-                      transform: Matrix4.translationValues(0.0, -25, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Container(
-                            child: Column(
-                              children: [
-                                SizedBox.fromSize(
-                                  size: Size(56, 56),
-                                  child: InkWell(
-                                    splashColor: Colors.purpleAccent,
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) => deposit()));
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add_rounded,
-                                          color: Colors.purple,
-                                        ),
-                                        Text(
-                                          "Top Up",
-                                          style: TextStyle(
-                                            color: Colors.purple,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _telpcontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'E-mail',
+                        ),
+                      ),
+                    ), //child: padding
+                  ),
+                ),
+
+                // password
+                SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _passcontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Password',
+                        ),
+                        obscureText: true,
+                      ),
+                    ), //child: padding
+                  ),
+                ),
+
+                // Button
+                SizedBox(height: 20),
+
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //           context,
+                //           new MaterialPageRoute(
+                //               builder: (context) => Register()));
+                //     },
+                //     child: Container(
+                //       padding: EdgeInsets.all(20),
+                //       decoration: BoxDecoration(
+                //         color: Colors.red[100],
+                //         borderRadius: BorderRadius.circular(12),
+                //       ),
+                //       child: Center(
+                //         child: Text(
+                //           'Sign in',
+                //           style: TextStyle(
+                //             fontWeight: FontWeight.bold,
+                //             color: Colors.red[900],
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                StreamBuilder<DocumentSnapshot>(
+                  stream: DatabaseUser.getData(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      Map<String, dynamic>? dataUser =
+                          snapshot.data!.data() as Map<String, dynamic>?;
+                      String? usertelp = dataUser?['notelp'];
+                      String? userpass = dataUser?['passcode'];
+                      if (usertelp == _telpcontroller &&
+                          userpass == _passcontroller) {
+                        password = true;
+                        return Text("");
+                      } else {
+                        return Text("Password Salah");
+                      }
+                    } else {
+                      return Text("Data tidak ditemukan");
+                    }
+                  },
+                ),
+                Container(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              new MaterialPageRoute(
+                                  builder: (context) => home()));
+                        },
+                        child: Text("Sign In"),
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Colors.red[100],
+                          fixedSize: Size.fromWidth(350),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          Container(
-                            child: Column(
-                              children: [
-                                SizedBox.fromSize(
-                                  size: Size(56, 56),
-                                  child: InkWell(
-                                    splashColor: Colors.purpleAccent,
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Transfer()));
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.arrow_circle_right,
-                                          color: Colors.purple,
-                                        ),
-                                        Text(
-                                          "Transfer",
-                                          style: TextStyle(
-                                            color: Colors.purple,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                SizedBox.fromSize(
-                                  size: Size(60, 60),
-                                  child: InkWell(
-                                    splashColor: Colors.purpleAccent,
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  tarikDana()));
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.download,
-                                          color: Colors.purple,
-                                        ),
-                                        Text(
-                                          "Tarik Tunai",
-                                          style: TextStyle(
-                                            color: Colors.purple,
-                                            fontSize: 12,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                SizedBox.fromSize(
-                                  size: Size(56, 56),
-                                  child: InkWell(
-                                    splashColor: Colors.purpleAccent,
-                                    onTap: () {
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HistoryPage()));
-                                    },
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.history,
-                                          color: Colors.purple,
-                                        ),
-                                        Text(
-                                          "History",
-                                          style: TextStyle(
-                                            color: Colors.purple,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                //Register , text
+                SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Do not have an account? ',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: Container(
-                    padding: EdgeInsets.fromLTRB(25, 0, 25, 10),
-                    margin: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Container(
-                            child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.phone_android,
-                                color: Colors.lightBlue,
-                              ),
-                            ),
-                            Container(
-                              child: Text("Pulsa"),
-                            )
-                          ],
-                        )),
-                        Container(
-                            child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.signal_cellular_alt_sharp,
-                                color: Colors.lightBlue,
-                              ),
-                            ),
-                            Container(
-                              child: Text("Paket Data"),
-                            )
-                          ],
-                        )),
-                        Container(
-                            child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.electrical_services,
-                                color: Colors.lightBlue,
-                              ),
-                            ),
-                            Container(
-                              child: Text("PLN"),
-                            )
-                          ],
-                        )),
-                        Container(
-                            child: Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(15),
-                              decoration: BoxDecoration(
-                                  color: Colors.grey.shade200,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Icon(
-                                Icons.note_alt,
-                                color: Colors.lightBlue,
-                              ),
-                            ),
-                            Container(
-                              child: Text("Invest"),
-                            )
-                          ],
-                        )),
-                      ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => Register()));
+                      },
+                      child: Text(
+                        'Register',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16.0,
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ))
-                ],
-              ),
-            ],
-          ),
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                    width: 8.0, color: Color.fromARGB(255, 230, 223, 223)),
-              ),
-            ),
-            margin: EdgeInsets.only(top: 30),
-            padding: EdgeInsets.only(top: 20),
-            child: ListView(
-              shrinkWrap: true,
-              children: [
-                CarouselSlider(
-                  items: [
-                    Container(
-                      margin: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: DecorationImage(
-                              image: AssetImage('images/image1.jpg'),
-                              fit: BoxFit.cover)),
-                    ),
-                    Container(
-                      margin: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          image: DecorationImage(
-                              image: AssetImage('images/image2.jpg'),
-                              fit: BoxFit.cover)),
-                    ),
-                  ],
-                  options: CarouselOptions(
-                      height: 180,
-                      enlargeCenterPage: true,
-                      autoPlay: false,
-                      aspectRatio: 16 / 9,
-                      autoPlayCurve: Curves.fastOutSlowIn,
-                      enableInfiniteScroll: true,
-                      autoPlayAnimationDuration:
-                          Duration(milliseconds: 800),
-                      viewportFraction: 0.8),
+                  ], //childern
                 ),
+
+                // LOGIN - Phone
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     InkWell(
+                //       onTap: () {
+                //         Navigator.push(
+                //             context,
+                //             new MaterialPageRoute(
+                //                 builder: (context) => home()));
+                //       },
+                //       child: Text(
+                //         'Login with phone number',
+                //         style: TextStyle(
+                //           color: Colors.white,
+                //           fontSize: 16.0,
+                //           decoration: TextDecoration.none,
+                //         ),
+                //       ),
+                //     ),
+                //   ], //childern
+                // ),
+                SizedBox(height: 50),
               ],
             ),
-          )
-        ],
+          ),
+        ),
       ),
     );
   }

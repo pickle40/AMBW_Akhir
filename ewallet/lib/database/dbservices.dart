@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewallet/database/dbKategori.dart';
 import 'package:ewallet/database/dbUser.dart';
 import 'package:ewallet/database/dcHistory.dart';
+import 'package:flutter/cupertino.dart';
 
 CollectionReference tblHistory =
     FirebaseFirestore.instance.collection("History");
@@ -40,8 +41,8 @@ class DatabaseKategori {
 }
 
 class DatabaseUser {
-  static Stream<QuerySnapshot> getData() {
-    return tblUser.snapshots();
+  static Stream<DocumentSnapshot> getData() {
+    return tblUser.doc('notelp').snapshots();
   }
 
   static Future<void> tambahData({required User user}) async {
@@ -52,4 +53,19 @@ class DatabaseUser {
         .whenComplete(() => print("data berhasil diinput"))
         .catchError((e) => print(e));
   }
+
+  // static Future<void> getUserData() async {
+  //   List userData = [];
+
+  //   try {
+  //     await tblHistory.get().then((QuerySnapshot) {
+  //       QuerySnapshot.docs.forEach((element) {
+  //         userData.add(element.data);
+  //       });
+  //     });
+  //   } catch (e) {
+  //     print(e.toString());
+  //   }
+  // }
+
 }
