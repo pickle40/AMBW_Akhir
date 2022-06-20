@@ -2,17 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+<<<<<<< HEAD
+
+import 'database/dbservices.dart';
+=======
+>>>>>>> b3f044e6860da828ba0e7d2d0e42803df38db2ed
 
 import 'database/dbservices.dart';
 
-class HistoryPage extends StatefulWidget {
-  const HistoryPage({ Key? key }) : super(key: key);
-
+class History extends StatefulWidget {
   @override
-  State<HistoryPage> createState() => _HistoryPageState();
+  _History createState() => _History();
 }
 
-class _HistoryPageState extends State<HistoryPage> {
+class _History extends State {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
