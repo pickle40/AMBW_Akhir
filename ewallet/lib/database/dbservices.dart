@@ -15,6 +15,12 @@ class DatabaseHistory {
     return tblHistory.snapshots();
   }
 
+  static Future<List> getGroupedData() async {
+    QuerySnapshot querySnapshot = await tblHistory.get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return allData;
+  }
+
   static Future<void> tambahData({required History history}) async {
     DocumentReference docRef = tblHistory.doc(history.NoTelp);
 

@@ -218,7 +218,7 @@ class _homeState extends State<home> {
                                         Navigator.of(context).push(
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    HistoryPage()));
+                                                    History()));
                                       },
                                       child: Column(
                                         mainAxisAlignment:
