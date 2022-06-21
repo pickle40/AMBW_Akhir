@@ -2,12 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
-<<<<<<< HEAD
-
-import 'database/dbservices.dart';
-=======
->>>>>>> b3f044e6860da828ba0e7d2d0e42803df38db2ed
-
 import 'database/dbservices.dart';
 
 class History extends StatefulWidget {
