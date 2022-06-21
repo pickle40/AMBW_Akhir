@@ -3,9 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
 
-import 'database/dbservices.dart';
-
-import 'database/dbservices.dart';
+import '../database/dbServices.dart';
 
 class History extends StatefulWidget {
   @override
