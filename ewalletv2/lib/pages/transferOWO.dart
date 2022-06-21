@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -19,7 +21,7 @@ class _transferOWOState extends State<transferOWO> {
     "Riski",
     "Tanoto",
   ];
-  String? menuItem;
+  var menuItem;
 
   @override
   Widget build(BuildContext context) {
@@ -194,15 +196,48 @@ class _transferOWOState extends State<transferOWO> {
                                 child: Text("Pilih Kategori:"),
                               ),
                               Container(
-                                child: DropdownButton<String>(
-                                  isExpanded: true,
-                                  items: contoh.map(buildMenuItem).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      menuItem = value;
-                                    });
+                                child: StreamBuilder<QuerySnapshot>(
+                                  stream: DatabaseKategori.getData(),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData ||
+                                        snapshot.data != null) {
+                                      List<DropdownMenuItem> dataKategori = [];
+                                      for (int i = 0;
+                                          i < snapshot.data!.docs.length;
+                                          i++) {
+                                        DocumentSnapshot data =
+                                            snapshot.data!.docs[i];
+                                        dataKategori.add(
+                                          DropdownMenuItem(
+                                            child: Text(data['Nama']),
+                                            value: "${data['Nama']}",
+                                          ),
+                                        );
+                                      }
+                                      return DropdownButton<dynamic>(
+                                        items: dataKategori,
+                                        onChanged: (value) {
+                                          setState(
+                                            () {
+                                              menuItem = value;
+                                            },
+                                          );
+                                        },
+                                        value: menuItem,
+                                        isExpanded: false,
+                                        hint: Text("Pilih Kategori"),
+                                      );
+                                    } else {
+                                      return Center(
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            Colors.pinkAccent,
+                                          ),
+                                        ),
+                                      );
+                                    }
                                   },
-                                  value: menuItem,
                                 ),
                               )
                             ],

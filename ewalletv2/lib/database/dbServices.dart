@@ -45,6 +45,12 @@ class DatabaseKategori {
         .whenComplete(() => print("data berhasil diinput"))
         .catchError((e) => print(e));
   }
+
+  static Future<List> getKategory() async {
+    QuerySnapshot querySnapshot = await tblKategori.get();
+    final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return allData;
+  }
 }
 
 class DatabaseUser {
