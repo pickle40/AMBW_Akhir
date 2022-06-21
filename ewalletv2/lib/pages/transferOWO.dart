@@ -31,8 +31,7 @@ class _transferOWOState extends State<transferOWO> {
           title: Text("Transfer Sesama OWO"),
         ),
         body: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+          child: Wrap(
             children: [
               Container(
                 color: Colors.blueAccent,
@@ -41,6 +40,7 @@ class _transferOWOState extends State<transferOWO> {
                   children: [
                     IconButton(
                       onPressed: Navigator.of(context).pop,
+                      // onPressed: () {},
                       icon: Icon(
                         Icons.arrow_back,
                         color: Colors.black,
@@ -60,17 +60,34 @@ class _transferOWOState extends State<transferOWO> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    TextField(
-                      textDirection: TextDirection.ltr,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: "Masukkan nomor ponsel",
-                      ),
-                      onChanged: (inputtelp) {
-                        noTelp = inputtelp;
-                      },
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Container(
+                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: TextField(
+                                  textDirection: TextDirection.ltr,
+                                  decoration: InputDecoration(
+                                    //border: OutlineInputBorder(),
+                                    labelText: "Masukkan nomor ponsel",
+                                  ),
+                                  onChanged: (inputtelp) {
+                                    noTelp = inputtelp;
+                                  },
+                                ),
+                              ),
+                              Container(
+                                child: Icon(Icons.note_alt_outlined),
+                              )
+                            ],
+                          ),
+                        ))
+                      ],
                     ),
-                    SizedBox(height: 25),
+                    SizedBox(height: 15),
                     Text(
                       "Sumber Dana",
                       style: TextStyle(
@@ -79,49 +96,46 @@ class _transferOWOState extends State<transferOWO> {
                       ),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                      margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.grey,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
-                      child: Wrap(
-                        spacing: 25,
-                        alignment: WrapAlignment.center,
+                      child: Expanded(
+                          child: Row(
                         children: [
-                          Icon(
-                            Icons.access_alarm_outlined,
-                            color: Colors.black,
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            child: Icon(Icons.timelapse_rounded),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Owo Cash",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
-                              Text(
-                                "Balance Rp. ${balance}",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 18,
+                          Container(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                  child: Text(
+                                    "OWO Cash",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16),
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
+                                Text("Balance IDR 5.000")
+                              ],
+                            ),
+                          )
                         ],
-                      ),
+                      )),
                     ),
-                    SizedBox(height: 25),
                     Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.fromLTRB(16, 20, 16, 30),
                       decoration: BoxDecoration(
-                        color: Colors.grey,
+                        color: Color.fromARGB(255, 235, 227, 227),
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
                       child: Column(
@@ -166,31 +180,52 @@ class _transferOWOState extends State<transferOWO> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Text("Pilih Kategori:"),
-                    DropdownButton<String>(
-                      items: contoh.map(buildMenuItem).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          menuItem = value;
-                        });
-                      },
-                      value: menuItem,
-                    ),
-                    SizedBox(height: 30),
-                    TextField(
-                      textDirection: TextDirection.ltr,
-                      decoration: InputDecoration(
-                        hintText: "Pesan (opstional)",
+                    Container(
+                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                      padding: EdgeInsets.all(5),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Text("Pilih Kategori:"),
+                              ),
+                              Container(
+                                child: DropdownButton<String>(
+                                  isExpanded: true,
+                                  items: contoh.map(buildMenuItem).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      menuItem = value;
+                                    });
+                                  },
+                                  value: menuItem,
+                                ),
+                              )
+                            ],
+                          ))
+                        ],
                       ),
-                      minLines: 1,
-                      maxLines: 5,
-                      onChanged: (pesan) {
-                        msg = pesan;
-                      },
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                      padding: EdgeInsets.all(5),
+                      child: TextField(
+                        textDirection: TextDirection.ltr,
+                        decoration: InputDecoration(
+                          hintText: "Pesan (optional)",
+                        ),
+                        minLines: 1,
+                        maxLines: 5,
+                        onChanged: (pesan) {
+                          msg = pesan;
+                        },
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Center(
                         child: ElevatedButton(
                           onPressed: () {},
