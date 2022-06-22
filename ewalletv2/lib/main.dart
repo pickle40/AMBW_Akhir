@@ -32,6 +32,7 @@ class _MyAppState extends State<MyApp> {
   // text controller
   final _emailcontroller = TextEditingController();
   final _passcontroller = TextEditingController();
+  String user = "";
 
   // Future signIn() async {
   //   await FirebaseAuth.instance.signInWithEmailAndPassword(
@@ -254,12 +255,70 @@ class _MyAppState extends State<MyApp> {
                 //     },
                 //   ),
                 // ),
+                // Container(
+                //   child: Column(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       ElevatedButton(
+                //         onPressed: () {
+                //           final String email = _emailcontroller.text.trim();
+                //           final String password = _passcontroller.text.trim();
+
+                //           if (email.isEmpty) {
+                //             ScaffoldMessenger.of(context).showSnackBar(
+                //               SnackBar(
+                //                 content: Text("Email kamu masih kosong"),
+                //               ),
+                //             );
+                //           } else if (password.isEmpty) {
+                //             ScaffoldMessenger.of(context).showSnackBar(
+                //               SnackBar(
+                //                 content: Text("Email kamu masih kosong"),
+                //               ),
+                //             );
+                //           } else {
+                //             FutureBuilder<String>(
+                //               future: DatabaseUser.login(
+                //                   email: email, passcode: password),
+                //               builder: (context, snapshot) {
+                //                 if (snapshot.hasData || snapshot.data != null) {
+                //                   return Text(
+                //                       snapshot.data.toString());
+                //                 } else {
+                //                   return Center(
+                //                     child: CircularProgressIndicator(
+                //                       valueColor: AlwaysStoppedAnimation<Color>(
+                //                         Colors.pinkAccent,
+                //                       ),
+                //                     ),
+                //                   );
+                //                 }
+                //               },
+                //             );
+                //             Navigator.push(
+                //                 context,
+                //                 new MaterialPageRoute(
+                //                     builder: (context) => home()));
+                //           }
+                //         },
+                //         child: Text("Sign In"),
+                //         style: OutlinedButton.styleFrom(
+                //           backgroundColor: Colors.red[100],
+                //           fixedSize: Size.fromWidth(350),
+                //           shape: RoundedRectangleBorder(
+                //             borderRadius: BorderRadius.circular(12),
+                //           ),
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
                 Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () {              
                           final String email = _emailcontroller.text.trim();
                           final String password = _passcontroller.text.trim();
 
@@ -276,13 +335,19 @@ class _MyAppState extends State<MyApp> {
                               ),
                             );
                           } else {
-                            FutureBuilder<String>(
-                              future: DatabaseUser.login(
+                            StreamBuilder<QuerySnapshot>(
+                              stream: DatabaseUser.login(
                                   email: email, passcode: password),
                               builder: (context, snapshot) {
                                 if (snapshot.hasData || snapshot.data != null) {
-                                  return Text(
-                                      snapshot.data.toString());
+                                  for (int i = 0;
+                                      i < snapshot.data!.docs.length;
+                                      i++) {
+                                    DocumentSnapshot getUser = snapshot.data!.docs[i];
+                                    user = getUser['Nama'];
+                                  }
+                                  return ElevatedButton(
+                                      onPressed: () {}, child: Text(user));
                                 } else {
                                   return Center(
                                     child: CircularProgressIndicator(

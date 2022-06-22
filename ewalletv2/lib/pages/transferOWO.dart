@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -199,7 +201,8 @@ class _transferOWOState extends State<transferOWO> {
                               ),
                               Container(
                                 child: StreamBuilder<QuerySnapshot>(
-                                  stream: DatabaseKategori.filterDataKategori(notelp: noTelp),
+                                  stream: DatabaseKategori.filterDataKategori(
+                                      notelp: noTelp),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData ||
                                         snapshot.data != null) {
@@ -265,7 +268,19 @@ class _transferOWOState extends State<transferOWO> {
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                       child: Center(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            final dt = History(
+                                tipeKategori: menuItem,
+                                Nama: "Test",
+                                NoTelp: noTelp,
+                                Nominal: nominaltf,
+                                TanggalTransaksi: "22-06-2022");
+                            DatabaseHistory.tambahData(history: dt);
+                            Navigator.push(
+                                context,
+                                new MaterialPageRoute(
+                                    builder: (context) => home()));
+                          },
                           child: Text("Kirim Sekarang"),
                           style: OutlinedButton.styleFrom(
                             backgroundColor: Colors.lightGreenAccent,

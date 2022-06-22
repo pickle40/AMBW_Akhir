@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 
 import 'dataClass/dcHistory.dart';
 import 'dataClass/dcKategori.dart';
@@ -42,7 +41,7 @@ class DatabaseKategori {
   }
 
   static Future<void> tambahData({required Kategori kategori}) async {
-    DocumentReference docRef = tblKategori.doc(kategori.notelp);
+    DocumentReference docRef = tblKategori.doc();
 
     await docRef
         .set(kategori.toJson())
@@ -72,13 +71,17 @@ class DatabaseUser {
   //   return user;
   // }
 
-  static Future<String> login(
-      {required String email, required String passcode}) async {
-    return tblUser
-        .where('email', isEqualTo: email)
-        .where('passcode', isEqualTo: passcode)
-        .get()
-        .toString();
+  // static Future<String> login(
+  //     {required String email, required String passcode}) async {
+  //   return tblUser
+  //       .where('email', isEqualTo: email)
+  //       .where('passcode', isEqualTo: passcode)
+  //       .get()
+  //       .toString();
+  // }
+
+  static Stream<QuerySnapshot> login({required String email, required String passcode}) {
+    return tblUser.where('email', isEqualTo: email).where('passcode', isEqualTo: passcode).snapshots();
   }
 
   static Future<void> tambahData({required User user}) async {
