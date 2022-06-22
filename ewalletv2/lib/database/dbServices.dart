@@ -37,6 +37,10 @@ class DatabaseKategori {
     return tblKategori.snapshots();
   }
 
+  static Stream<QuerySnapshot> filterDataKategori({required String notelp}) {
+    return tblKategori.where('notelp', isEqualTo: notelp).snapshots();
+  }
+
   static Future<void> tambahData({required Kategori kategori}) async {
     DocumentReference docRef = tblKategori.doc(kategori.notelp);
 
@@ -54,8 +58,27 @@ class DatabaseKategori {
 }
 
 class DatabaseUser {
-  static Stream<DocumentSnapshot> getData() {
-    return tblUser.doc('notelp').snapshots();
+  static Stream<QuerySnapshot> getData() {
+    return tblUser.snapshots();
+  }
+
+  // static Future<Stream<QuerySnapshot<Object?>>> login(
+  //     {required final email, required final passcode}) async {
+  //   Stream<QuerySnapshot> user = tblUser
+  //       .where('email', isEqualTo: email)
+  //       .where('passcode', isEqualTo: passcode)
+  //       .snapshots();
+
+  //   return user;
+  // }
+
+  static Future<String> login(
+      {required String email, required String passcode}) async {
+    return tblUser
+        .where('email', isEqualTo: email)
+        .where('passcode', isEqualTo: passcode)
+        .get()
+        .toString();
   }
 
   static Future<void> tambahData({required User user}) async {

@@ -11,7 +11,7 @@ class transferOWO extends StatefulWidget {
 }
 
 class _transferOWOState extends State<transferOWO> {
-  String noTelp = "";
+  String noTelp = "081";
   String msg = "";
   int balance = 50000;
   int nominaltf = 0;
@@ -22,6 +22,8 @@ class _transferOWOState extends State<transferOWO> {
     "Tanoto",
   ];
   var menuItem;
+
+  get descending => null;
 
   @override
   Widget build(BuildContext context) {
@@ -197,7 +199,7 @@ class _transferOWOState extends State<transferOWO> {
                               ),
                               Container(
                                 child: StreamBuilder<QuerySnapshot>(
-                                  stream: DatabaseKategori.getData(),
+                                  stream: DatabaseKategori.filterDataKategori(notelp: noTelp),
                                   builder: (context, snapshot) {
                                     if (snapshot.hasData ||
                                         snapshot.data != null) {

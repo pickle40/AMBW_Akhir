@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/Register.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -76,6 +78,7 @@ class _MyAppState extends State<MyApp> {
 
                 // e-mail
                 SizedBox(height: 20),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Container(
@@ -194,7 +197,63 @@ class _MyAppState extends State<MyApp> {
                 //     ],
                 //   ),
                 // ),
+                // Container(
+                //   child: StreamBuilder<QuerySnapshot>(
+                //     stream: DatabaseUser.login(email: _emailcontroller, passcode: _passcontroller)
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData || snapshot.data != null) {
+                //         return Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             ElevatedButton(
+                //               onPressed: () {
+                //                 final String email =
+                //                     _emailcontroller.text.trim();
+                //                 final String password =
+                //                     _passcontroller.text.trim();
 
+                //                 if (email.isEmpty) {
+                //                   ScaffoldMessenger.of(context).showSnackBar(
+                //                     SnackBar(
+                //                       content: Text("Email kamu masih kosong"),
+                //                     ),
+                //                   );
+                //                 } else if (password.isEmpty) {
+                //                   ScaffoldMessenger.of(context).showSnackBar(
+                //                     SnackBar(
+                //                       content: Text("Email kamu masih kosong"),
+                //                     ),
+                //                   );
+                //                 } else {
+                //                   Navigator.push(
+                //                       context,
+                //                       new MaterialPageRoute(
+                //                           builder: (context) => home()));
+                //                 }
+                //               },
+                //               child: Text("Sign In"),
+                //               style: OutlinedButton.styleFrom(
+                //                 backgroundColor: Colors.red[100],
+                //                 fixedSize: Size.fromWidth(350),
+                //                 shape: RoundedRectangleBorder(
+                //                   borderRadius: BorderRadius.circular(12),
+                //                 ),
+                //               ),
+                //             ),
+                //           ],
+                //         );
+                //       } else {
+                //         return Center(
+                //           child: CircularProgressIndicator(
+                //             valueColor: AlwaysStoppedAnimation<Color>(
+                //               Colors.pinkAccent,
+                //             ),
+                //           ),
+                //         );
+                //       }
+                //     },
+                //   ),
+                // ),
                 Container(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -217,6 +276,24 @@ class _MyAppState extends State<MyApp> {
                               ),
                             );
                           } else {
+                            FutureBuilder<String>(
+                              future: DatabaseUser.login(
+                                  email: email, passcode: password),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData || snapshot.data != null) {
+                                  return Text(
+                                      snapshot.data.toString());
+                                } else {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        Colors.pinkAccent,
+                                      ),
+                                    ),
+                                  );
+                                }
+                              },
+                            );
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(
