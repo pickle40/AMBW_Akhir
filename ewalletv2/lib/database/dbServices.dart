@@ -61,6 +61,16 @@ class DatabaseUser {
     return tblUser.snapshots();
   }
 
+  static Stream<QuerySnapshot> getDataPenerima(
+      {required String notelpPenerima}) {
+    return tblUser.where('Notelp', isEqualTo: notelpPenerima).snapshots();
+  }
+
+  static Stream<QuerySnapshot> getDataPengirim(
+      {required String notelpPengirim}) {
+    return tblUser.where('Notelp', isEqualTo: notelpPengirim).snapshots();
+  }
+
   // static Future<Stream<QuerySnapshot<Object?>>> login(
   //     {required final email, required final passcode}) async {
   //   Stream<QuerySnapshot> user = tblUser
@@ -80,8 +90,12 @@ class DatabaseUser {
   //       .toString();
   // }
 
-  static Stream<QuerySnapshot> login({required String email, required String passcode}) {
-    return tblUser.where('email', isEqualTo: email).where('passcode', isEqualTo: passcode).snapshots();
+  static Stream<QuerySnapshot> login(
+      {required String email, required String passcode}) {
+    return tblUser
+        .where('email', isEqualTo: email)
+        .where('passcode', isEqualTo: passcode)
+        .snapshots();
   }
 
   static Future<void> tambahData({required User user}) async {

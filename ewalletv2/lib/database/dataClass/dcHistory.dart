@@ -1,12 +1,16 @@
 class History {
-  final String tipeKategori;
+  //Kategori digunakan untuk Pengeluaran atau Pendapatan saja
+  final String Kategori;
+  //subKategori digunakan untuk tipe kategori seperti pengeluaran untuk "makan" atau "minum". Pendapatan tidak ada subkategori
+  final String subKategori;
   final String Nama;
   final String NoTelp;
   final int Nominal;
   final String TanggalTransaksi;
 
   History(
-      {required this.tipeKategori,
+      {required this.Kategori,
+      required this.subKategori,
       required this.Nama,
       required this.NoTelp,
       required this.Nominal,
@@ -14,7 +18,8 @@ class History {
 
   Map<String, dynamic> toJson() {
     return {
-      "Kategori": tipeKategori,
+      "Kategori": Kategori,
+      "subKategori": subKategori,
       "Nama": Nama,
       "NoTelp": NoTelp,
       "Nominal": Nominal,
@@ -24,7 +29,8 @@ class History {
 
   factory History.fromJason(Map<String, dynamic> json) {
     return History(
-        tipeKategori: json['Kategori'],
+        Kategori: json['Kategori'],
+        subKategori: json['subKategori'],
         Nama: json['Nama'],
         NoTelp: json['NoTelp'],
         Nominal: json['Nominal'],

@@ -14,6 +14,7 @@ class transferOWO extends StatefulWidget {
 
 class _transferOWOState extends State<transferOWO> {
   String noTelp = "081";
+  String noTelpPenerima = "";
   String msg = "";
   int balance = 50000;
   int nominaltf = 0;
@@ -81,7 +82,7 @@ class _transferOWOState extends State<transferOWO> {
                                     labelText: "Masukkan nomor ponsel",
                                   ),
                                   onChanged: (inputtelp) {
-                                    noTelp = inputtelp;
+                                    noTelpPenerima = inputtelp;
                                   },
                                 ),
                               ),
@@ -266,30 +267,82 @@ class _transferOWOState extends State<transferOWO> {
                     ),
                     Container(
                       padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            final dt = History(
-                                tipeKategori: menuItem,
-                                Nama: "Test",
-                                NoTelp: noTelp,
-                                Nominal: nominaltf,
-                                TanggalTransaksi: "22-06-2022");
-                            DatabaseHistory.tambahData(history: dt);
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => home()));
-                          },
-                          child: Text("Kirim Sekarang"),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.lightGreenAccent,
-                            fixedSize: Size.fromWidth(350),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
+                      child: StreamBuilder<QuerySnapshot>(
+                        //stream harus bisa dapat data penerima dan pengirim
+                        stream: DatabaseUser.getDataPenerima(
+                            notelpPenerima: noTelpPenerima),
+                        builder: (context, snapshot) {
+                          DocumentSnapshot dataPenerima =
+                              snapshot.data!.docs[0];
+                          String NamaPenerima = dataPenerima['Nama'];
+                          String noTelpPenerima = dataPenerima['Notelp'];
+                          int NominalPenerima = dataPenerima['Uang'];
+                          if (snapshot.hasData || snapshot.data != null) {
+                            return StreamBuilder<QuerySnapshot>(
+                              stream: DatabaseUser.getDataPengirim(
+                                  notelpPengirim: noTelp),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData || snapshot.data != null) {
+                                  DocumentSnapshot dataPengirim =
+                              snapshot.data!.docs[0];
+                          String NamaPengirim = dataPengirim['Nama'];
+                          String noTelpPengirim = dataPengirim['Notelp'];
+                          int NominalPengirim = dataPengirim['Uang'];
+                                  return Center(
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        //Untuk Penerima
+                                        final dtPenerima = History(
+                                            Kategori: "Pendapatan",
+                                            subKategori: "",
+                                            //Nama Pengirim
+                                            Nama: NamaPengirim,
+                                            //nomor telepon pengirim
+                                            NoTelp: noTelpPengirim,
+                                            //nominal penerima (nominal penerima saat ini + nominal yang dikirim)
+                                            Nominal: NominalPenerima + nominaltf,
+                                            TanggalTransaksi: "22-06-2022");
+                                        DatabaseHistory.tambahData(
+                                            history: dtPenerima);
+                                        //Untuk pengirim
+                                        final dtPengirim = History(
+                                            Kategori: "Pengeluaran",
+                                            subKategori: menuItem,
+                                            //Nama Penerima
+                                            Nama: NamaPenerima,
+                                            //nomor telepon penerima
+                                            NoTelp: noTelpPenerima,
+                                            //nominal pengirim (nominal pengirim saat ini - nominal yang dikirim)
+                                            Nominal: NominalPengirim - nominaltf,
+                                            TanggalTransaksi: "22-06-2022");
+                                        DatabaseHistory.tambahData(
+                                            history: dtPengirim);
+                                        Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) => home()));
+                                      },
+                                      child: Text("Kirim Sekarang"),
+                                      style: OutlinedButton.styleFrom(
+                                        backgroundColor:
+                                            Colors.lightGreenAccent,
+                                        fixedSize: Size.fromWidth(350),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  return Text("Data Pengirim tidak ditemukan");
+                                }
+                              },
+                            );
+                          } else {
+                            return Text("Tidak ada Data yang ditemukan");
+                          }
+                        },
                       ),
                     ),
                   ],
