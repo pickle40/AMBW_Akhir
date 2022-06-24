@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dbServices.dart';
@@ -37,257 +39,262 @@ class _transferOWOState extends State<transferOWO> {
         appBar: AppBar(
           title: Text("Transfer Sesama OWO"),
         ),
-        body: Container(
-          child: Wrap(
-            children: [
-              Container(
-                color: Colors.blueAccent,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+        body: StreamBuilder<QuerySnapshot>(
+          stream: DatabaseUser.getDataPengirim(notelpPengirim: noTelp),
+          builder: (context, snapshot) {
+            if (snapshot.hasData || snapshot.data != null) {
+              DocumentSnapshot dataPengirim = snapshot.data!.docs[0];
+              String NamaPengirim = dataPengirim['Nama'];
+              String noTelpPengirim = dataPengirim['Notelp'];
+              int NominalPengirim = dataPengirim['Uang'];
+              return Container(
+                child: Wrap(
                   children: [
-                    IconButton(
-                      onPressed: Navigator.of(context).pop,
-                      // onPressed: () {},
-                      icon: Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
+                    Container(
                       color: Colors.blueAccent,
-                    ),
-                    Text(
-                      "Ke Sesama OWO",
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                          margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextField(
-                                  textDirection: TextDirection.ltr,
-                                  decoration: InputDecoration(
-                                    //border: OutlineInputBorder(),
-                                    labelText: "Masukkan nomor ponsel",
-                                  ),
-                                  onChanged: (inputtelp) {
-                                    noTelpPenerima = inputtelp;
-                                  },
-                                ),
-                              ),
-                              Container(
-                                child: Icon(Icons.note_alt_outlined),
-                              )
-                            ],
-                          ),
-                        ))
-                      ],
-                    ),
-                    SizedBox(height: 15),
-                    Text(
-                      "Sumber Dana",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                      margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Expanded(
-                          child: Row(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: EdgeInsets.all(15),
-                            child: Icon(Icons.timelapse_rounded),
-                          ),
-                          Container(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                  child: Text(
-                                    "OWO Cash",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 16),
-                                  ),
-                                ),
-                                Text("Balance IDR 5.000")
-                              ],
+                          IconButton(
+                            onPressed: Navigator.of(context).pop,
+                            // onPressed: () {},
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
                             ),
-                          )
+                            color: Colors.blueAccent,
+                          ),
+                          Text(
+                            "Ke Sesama OWO",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ],
-                      )),
+                      ),
                     ),
                     Container(
-                      padding: EdgeInsets.fromLTRB(16, 20, 16, 30),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 235, 227, 227),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
+                      padding: EdgeInsets.all(8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                  child: Container(
+                                margin: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        textDirection: TextDirection.ltr,
+                                        decoration: InputDecoration(
+                                          //border: OutlineInputBorder(),
+                                          labelText: "Masukkan nomor ponsel",
+                                        ),
+                                        onChanged: (inputtelp) {
+                                          noTelpPenerima = inputtelp;
+                                        },
+                                      ),
+                                    ),
+                                    Container(
+                                      child: Icon(Icons.note_alt_outlined),
+                                    )
+                                  ],
+                                ),
+                              ))
+                            ],
+                          ),
+                          SizedBox(height: 15),
                           Text(
-                            "Nominal Transfer",
+                            "Sumber Dana",
                             style: TextStyle(
-                              color: Colors.black,
+                              fontSize: 14,
+                              color: Colors.grey,
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rp. ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
                               ),
-                              Container(
-                                width: 200,
-                                child: TextField(
-                                  textDirection: TextDirection.ltr,
-                                  decoration: InputDecoration(
-                                    hintText: "${nominaltf}",
-                                    hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Expanded(
+                                child: Row(
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.all(15),
+                                  child: Icon(Icons.timelapse_rounded),
+                                ),
+                                Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                        child: Text(
+                                          "OWO Cash",
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 16),
+                                        ),
+                                      ),
+                                      Text("Saldo Rp ${NominalPengirim}")
+                                    ],
                                   ),
-                                  onChanged: (nominal) {
-                                    nominaltf = int.parse(nominal);
-                                  },
-                                  keyboardType: TextInputType.number,
-                                ),
-                              ),
-                            ],
+                                )
+                              ],
+                            )),
                           ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
-                      padding: EdgeInsets.all(5),
-                      child: Row(
-                        children: [
-                          Expanded(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text("Pilih Kategori:"),
-                              ),
-                              Container(
-                                child: StreamBuilder<QuerySnapshot>(
-                                  stream: DatabaseKategori.filterDataKategori(
-                                      notelp: noTelp),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.hasData ||
-                                        snapshot.data != null) {
-                                      List<DropdownMenuItem> dataKategori = [];
-                                      for (int i = 0;
-                                          i < snapshot.data!.docs.length;
-                                          i++) {
-                                        DocumentSnapshot data =
-                                            snapshot.data!.docs[i];
-                                        dataKategori.add(
-                                          DropdownMenuItem(
-                                            child: Text(data['Nama']),
-                                            value: "${data['Nama']}",
-                                          ),
-                                        );
-                                      }
-                                      return DropdownButton<dynamic>(
-                                        items: dataKategori,
-                                        onChanged: (value) {
-                                          setState(
-                                            () {
-                                              menuItem = value;
-                                            },
-                                          );
-                                        },
-                                        value: menuItem,
-                                        isExpanded: false,
-                                        hint: Text("Pilih Kategori"),
-                                      );
-                                    } else {
-                                      return Center(
-                                        child: CircularProgressIndicator(
-                                          valueColor:
-                                              AlwaysStoppedAnimation<Color>(
-                                            Colors.pinkAccent,
+                          Container(
+                            padding: EdgeInsets.fromLTRB(16, 20, 16, 30),
+                            decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 235, 227, 227),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nominal Transfer",
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Rp. ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 200,
+                                      child: TextField(
+                                        textDirection: TextDirection.ltr,
+                                        decoration: InputDecoration(
+                                          hintText: "${nominaltf}",
+                                          hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
                                           ),
                                         ),
-                                      );
-                                    }
-                                  },
+                                        onChanged: (nominal) {
+                                          nominaltf = int.parse(nominal);
+                                        },
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              )
-                            ],
-                          ))
-                        ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      child: TextField(
-                        textDirection: TextDirection.ltr,
-                        decoration: InputDecoration(
-                          hintText: "Pesan (optional)",
-                        ),
-                        minLines: 1,
-                        maxLines: 5,
-                        onChanged: (pesan) {
-                          msg = pesan;
-                        },
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: StreamBuilder<QuerySnapshot>(
-                        //stream harus bisa dapat data penerima dan pengirim
-                        stream: DatabaseUser.getDataPenerima(
-                            notelpPenerima: noTelpPenerima),
-                        builder: (context, snapshot) {
-                          DocumentSnapshot dataPenerima =
-                              snapshot.data!.docs[0];
-                          String NamaPenerima = dataPenerima['Nama'];
-                          String noTelpPenerima = dataPenerima['Notelp'];
-                          int NominalPenerima = dataPenerima['Uang'];
-                          if (snapshot.hasData || snapshot.data != null) {
-                            return StreamBuilder<QuerySnapshot>(
-                              stream: DatabaseUser.getDataPengirim(
-                                  notelpPengirim: noTelp),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                    child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                      child: Text("Pilih Kategori:"),
+                                    ),
+                                    Container(
+                                      child: StreamBuilder<QuerySnapshot>(
+                                        stream:
+                                            DatabaseKategori.filterDataKategori(
+                                                notelp: noTelp),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.hasData ||
+                                              snapshot.data != null) {
+                                            List<DropdownMenuItem>
+                                                dataKategori = [];
+                                            for (int i = 0;
+                                                i < snapshot.data!.docs.length;
+                                                i++) {
+                                              DocumentSnapshot data =
+                                                  snapshot.data!.docs[i];
+                                              dataKategori.add(
+                                                DropdownMenuItem(
+                                                  child: Text(data['Nama']),
+                                                  value: "${data['Nama']}",
+                                                ),
+                                              );
+                                            }
+                                            return DropdownButton<dynamic>(
+                                              items: dataKategori,
+                                              onChanged: (value) {
+                                                setState(
+                                                  () {
+                                                    menuItem = value;
+                                                  },
+                                                );
+                                              },
+                                              value: menuItem,
+                                              isExpanded: false,
+                                              hint: Text("Pilih Kategori"),
+                                            );
+                                          } else {
+                                            return Center(
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  Colors.pinkAccent,
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ))
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            child: TextField(
+                              textDirection: TextDirection.ltr,
+                              decoration: InputDecoration(
+                                hintText: "Pesan (optional)",
+                              ),
+                              minLines: 1,
+                              maxLines: 5,
+                              onChanged: (pesan) {
+                                msg = pesan;
+                              },
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: StreamBuilder<QuerySnapshot>(
+                              //stream harus bisa dapat data penerima dan pengirim
+                              stream: DatabaseUser.getDataPenerima(
+                                  notelpPenerima: noTelpPenerima),
                               builder: (context, snapshot) {
+                                DocumentSnapshot dataPenerima =
+                                    snapshot.data!.docs[0];
+                                String NamaPenerima = dataPenerima['Nama'];
+                                String noTelpPenerima = dataPenerima['Notelp'];
+                                int NominalPenerima = dataPenerima['Uang'];
                                 if (snapshot.hasData || snapshot.data != null) {
-                                  DocumentSnapshot dataPengirim =
-                              snapshot.data!.docs[0];
-                          String NamaPengirim = dataPengirim['Nama'];
-                          String noTelpPengirim = dataPengirim['Notelp'];
-                          int NominalPengirim = dataPengirim['Uang'];
                                   return Center(
                                     child: ElevatedButton(
                                       onPressed: () {
@@ -300,7 +307,8 @@ class _transferOWOState extends State<transferOWO> {
                                             //nomor telepon pengirim
                                             NoTelp: noTelpPengirim,
                                             //nominal penerima (nominal penerima saat ini + nominal yang dikirim)
-                                            Nominal: NominalPenerima + nominaltf,
+                                            Nominal:
+                                                NominalPenerima + nominaltf,
                                             TanggalTransaksi: "22-06-2022");
                                         DatabaseHistory.tambahData(
                                             history: dtPenerima);
@@ -313,7 +321,8 @@ class _transferOWOState extends State<transferOWO> {
                                             //nomor telepon penerima
                                             NoTelp: noTelpPenerima,
                                             //nominal pengirim (nominal pengirim saat ini - nominal yang dikirim)
-                                            Nominal: NominalPengirim - nominaltf,
+                                            Nominal:
+                                                NominalPengirim - nominaltf,
                                             TanggalTransaksi: "22-06-2022");
                                         DatabaseHistory.tambahData(
                                             history: dtPengirim);
@@ -335,21 +344,21 @@ class _transferOWOState extends State<transferOWO> {
                                     ),
                                   );
                                 } else {
-                                  return Text("Data Pengirim tidak ditemukan");
+                                  return Text("Tidak ada Data yang ditemukan");
                                 }
                               },
-                            );
-                          } else {
-                            return Text("Tidak ada Data yang ditemukan");
-                          }
-                        },
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
-          ),
+              );
+            } else {
+              return Text("Data tidak ditemukan");
+            }
+          },
         ),
       ),
     );
