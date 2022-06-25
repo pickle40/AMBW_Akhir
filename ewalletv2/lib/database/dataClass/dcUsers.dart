@@ -18,24 +18,24 @@ class User {
 
   Map<String, dynamic> toJson() {
     return {
-      "Alamat": alamat,
-      "Email": email,
-      "Nama": nama,
-      "NoRekening": norek,
-      "Notelp": notelp,
-      "Uang": uang,
+      "alamat": alamat,
+      "email": email,
+      "nama": nama,
+      "norek": norek,
+      "notelp": notelp,
+      "uang": uang,
       "passcode": passcode
     };
   }
 
   factory User.fromJason(Map<String, dynamic> json) {
     return User(
-        alamat: json['Alamat'],
-        email: json['Email'],
-        nama: json['Nama'],
-        norek: json['NoRekening'],
-        notelp: json['Notelp'],
-        uang: json['Uang'],
+        alamat: json['alamat'],
+        email: json['email'],
+        nama: json['nama'],
+        norek: json['norek'],
+        notelp: json['notelp'],
+        uang: json['uang'],
         passcode: json['passcode']);
   }
 }
