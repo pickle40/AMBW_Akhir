@@ -11,15 +11,16 @@ class History extends StatefulWidget {
 }
 
 class _History extends State {
+  String login_user = "081322116644";
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("History"),
+          title: Text("Riwayat Transaksi"),
         ),
         body: FutureBuilder<List<dynamic>>(
-            future: DatabaseHistory.getGroupedData(),
+            future: DatabaseHistory.getGroupedData(login_user),
             builder: (context, future) {
               if (future.hasData || future.data != null) {
                 return GroupedListView<dynamic, String>(
@@ -81,7 +82,7 @@ class _History extends State {
                   },
                 );
               } else {
-                return Text('Error');
+                return Center(child: const CircularProgressIndicator());
               }
             }),
       ),

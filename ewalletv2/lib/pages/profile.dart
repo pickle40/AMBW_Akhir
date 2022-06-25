@@ -4,6 +4,8 @@ import 'package:ewalletv2/pages/editprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'history.dart';
+
 class profile extends StatefulWidget {
   const profile({Key? key}) : super(key: key);
 
@@ -368,7 +370,7 @@ class _profileState extends State<profile> {
                         Row(
                           children: [
                             Container(
-                              margin: EdgeInsets.fromLTRB(10, 30, 10, 20),
+                              margin: EdgeInsets.fromLTRB(10, 15, 10, 20),
                               child: Text(
                                 "N0. REK",
                                 style: TextStyle(
@@ -445,6 +447,25 @@ class _profileState extends State<profile> {
                                 ],
                               ),
                             ))
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border(
+                                      bottom: BorderSide(
+                                          width: 1, color: Colors.grey))),
+                              child: TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => History()));
+                                  },
+                                  child: Text("Riwayat Transaksi")),
+                            )
                           ],
                         ),
                         Row(

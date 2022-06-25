@@ -15,8 +15,9 @@ class DatabaseHistory {
     return tblHistory.snapshots();
   }
 
-  static Future<List> getGroupedData() async {
-    QuerySnapshot querySnapshot = await tblHistory.get();
+  static Future<List> getGroupedData(String noTelp) async {
+    QuerySnapshot querySnapshot =
+        await tblHistory.where("NoTelp", isEqualTo: noTelp).get();
     final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
     return allData;
   }
