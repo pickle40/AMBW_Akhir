@@ -78,6 +78,14 @@ class DatabaseUser {
     return data;
   }
 
+  static Future<void> updateData({required User data}) async {
+    DocumentReference docRef = tblUser.doc(data.notelp);
+    await docRef
+        .update(data.toJson())
+        .whenComplete(() => print("Data Berhasil Diubah!"))
+        .catchError((e) => print(e));
+  }
+
   // static Future<Stream<QuerySnapshot<Object?>>> login(
   //     {required final email, required final passcode}) async {
   //   Stream<QuerySnapshot> user = tblUser

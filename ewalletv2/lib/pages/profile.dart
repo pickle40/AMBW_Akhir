@@ -1,4 +1,6 @@
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/editprofile.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -13,7 +15,7 @@ class _profileState extends State<profile> {
   bool panel1 = false;
   bool panel2 = false;
   bool panel3 = false;
-  String login_user = "081";
+  String login_user = "081322116644";
 
   @override
   void initState() {
@@ -362,45 +364,13 @@ class _profileState extends State<profile> {
                             ))
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      width: 8.0,
-                                      color:
-                                          Color.fromARGB(255, 230, 223, 223)),
-                                ),
-                              ),
-                              padding: EdgeInsets.fromLTRB(10, 6, 0, 6),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    padding: EdgeInsets.all(10),
-                                    child: Icon(Icons.edit_note_outlined),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.fromLTRB(15, 0, 0, 0),
-                                    child: Text(
-                                      "Ubah Profil",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ))
-                          ],
-                        ),
+
                         Row(
                           children: [
                             Container(
                               margin: EdgeInsets.fromLTRB(10, 30, 10, 20),
                               child: Text(
-                                "OVO ID",
+                                "N0. REK",
                                 style: TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -423,50 +393,55 @@ class _profileState extends State<profile> {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Color.fromARGB(
-                                                255, 230, 223, 223))),
-                                    padding:
-                                        EdgeInsets.fromLTRB(45, 10, 45, 10),
-                                    margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Icon(Icons.qr_code),
-                                        ),
-                                        Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                          child: Text("QR Code"),
-                                        )
-                                      ],
+                                  Expanded(
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: Color.fromARGB(
+                                                  255, 230, 223, 223))),
+                                      padding:
+                                          EdgeInsets.fromLTRB(45, 10, 45, 10),
+                                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Icon(Icons.qr_code),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            child: Text("QR Code"),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Color.fromARGB(
-                                                255, 230, 223, 223))),
-                                    padding:
-                                        EdgeInsets.fromLTRB(45, 10, 45, 10),
-                                    margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                    child: Row(
-                                      children: [
-                                        Container(
-                                          child: Icon(Icons.qr_code_2),
-                                        ),
-                                        Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                          child: Text("QR Code"),
-                                        )
-                                      ],
-                                    ),
-                                  )
+                                  // Container(
+                                  //   decoration: BoxDecoration(
+                                  //       borderRadius: BorderRadius.circular(10),
+                                  //       border: Border.all(
+                                  //           color: Color.fromARGB(
+                                  //               255, 230, 223, 223))),
+                                  //   padding:
+                                  //       EdgeInsets.fromLTRB(45, 10, 45, 10),
+                                  //   margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                                  //   child: Row(
+                                  //     children: [
+                                  //       Container(
+                                  //         child: Icon(Icons.qr_code_2),
+                                  //       ),
+                                  //       Container(
+                                  //         margin:
+                                  //             EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                  //         child: Text("QR Code"),
+                                  //       )
+                                  //     ],
+                                  //   ),
+                                  // )
                                 ],
                               ),
                             ))
@@ -476,7 +451,44 @@ class _profileState extends State<profile> {
                           children: [
                             Expanded(
                                 child: Container(
-                              margin: EdgeInsets.fromLTRB(5, 10, 5, 5),
+                              margin: EdgeInsets.fromLTRB(10, 10, 5, 5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      child: ElevatedButton(
+                                          onPressed: () {
+                                            final oldData = User(
+                                                alamat: snapshot.data![0]
+                                                    ['alamat'],
+                                                email: snapshot.data![0]
+                                                    ['email'],
+                                                nama: snapshot.data![0]['nama'],
+                                                norek: snapshot.data![0]
+                                                    ['norek'],
+                                                notelp: snapshot.data![0]
+                                                    ['notelp'],
+                                                uang: snapshot.data![0]['uang'],
+                                                passcode: snapshot.data![0]
+                                                    ['passcode']);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Editprofile(
+                                                          dataUser: oldData,
+                                                        )));
+                                          },
+                                          child: Text("Edit Profile")),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )),
+                            Expanded(
+                                child: Container(
+                              margin: EdgeInsets.fromLTRB(5, 10, 10, 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
