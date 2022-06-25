@@ -17,7 +17,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: profile(),
+      home: MyApp(),
     ),
   );
 }
