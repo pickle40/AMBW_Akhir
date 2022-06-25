@@ -8,27 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class transferOWO extends StatefulWidget {
-  const transferOWO({Key? key}) : super(key: key);
+  final String userlogin;
+  const transferOWO({Key? key, required this.userlogin}) : super(key: key);
 
   @override
   State<transferOWO> createState() => _transferOWOState();
 }
 
 class _transferOWOState extends State<transferOWO> {
-  String noTelp = "081";
+  //String noTelp = "081";
   String noTelpPenerima = "";
   String msg = "";
-  int balance = 50000;
   int nominaltf = 0;
 
-  final List<String> contoh = [
-    "David",
-    "Riski",
-    "Tanoto",
-  ];
   var menuItem;
 
-  get descending => null;
+  String NamaPengirim = "";
+  String noTelpPengirim = "";
+  int NominalPengirim = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -40,13 +37,16 @@ class _transferOWOState extends State<transferOWO> {
           title: Text("Transfer Sesama OWO"),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: DatabaseUser.getDataPengirim(notelpPengirim: noTelp),
+          stream: DatabaseUser.getDataPengirim(notelpPengirim: widget.userlogin),
           builder: (context, snapshot) {
             if (snapshot.hasData || snapshot.data != null) {
-              DocumentSnapshot dataPengirim = snapshot.data!.docs[0];
-              String NamaPengirim = dataPengirim['Nama'];
-              String noTelpPengirim = dataPengirim['Notelp'];
-              int NominalPengirim = dataPengirim['Uang'];
+              for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                DocumentSnapshot dataPengirim = snapshot.data!.docs[i];
+                NamaPengirim = dataPengirim['Nama'];
+                noTelpPengirim = dataPengirim['Notelp'];
+                NominalPengirim = dataPengirim['Uang'];
+              }
+
               return Container(
                 child: Wrap(
                   children: [
@@ -218,7 +218,7 @@ class _transferOWOState extends State<transferOWO> {
                                       child: StreamBuilder<QuerySnapshot>(
                                         stream:
                                             DatabaseKategori.filterDataKategori(
-                                                notelp: noTelp),
+                                                notelp: widget.userlogin),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData ||
                                               snapshot.data != null) {
@@ -289,12 +289,19 @@ class _transferOWOState extends State<transferOWO> {
                               stream: DatabaseUser.getDataPenerima(
                                   notelpPenerima: noTelpPenerima),
                               builder: (context, snapshot) {
-                                DocumentSnapshot dataPenerima =
-                                    snapshot.data!.docs[0];
-                                String NamaPenerima = dataPenerima['Nama'];
-                                String noTelpPenerima = dataPenerima['Notelp'];
-                                int NominalPenerima = dataPenerima['Uang'];
+                                String NamaPenerima = "";
+                                String noTelpPenerima = "";
+                                int NominalPenerima = 0;
                                 if (snapshot.hasData || snapshot.data != null) {
+                                  for (int i = 0;
+                                      i < snapshot.data!.docs.length;
+                                      i++) {
+                                    DocumentSnapshot dataPenerima =
+                                        snapshot.data!.docs[i];
+                                    NamaPenerima = dataPenerima['Nama'];
+                                    noTelpPenerima = dataPenerima['Notelp'];
+                                    NominalPenerima = dataPenerima['Uang'];
+                                  }
                                   return Center(
                                     child: ElevatedButton(
                                       onPressed: () {
