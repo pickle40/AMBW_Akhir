@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/Register.dart';
 import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyApp(),
+      home: profile(),
     ),
   );
 }
@@ -318,7 +319,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {              
+                        onPressed: () {
                           final String email = _emailcontroller.text.trim();
                           final String password = _passcontroller.text.trim();
 
@@ -343,7 +344,8 @@ class _MyAppState extends State<MyApp> {
                                   for (int i = 0;
                                       i < snapshot.data!.docs.length;
                                       i++) {
-                                    DocumentSnapshot getUser = snapshot.data!.docs[i];
+                                    DocumentSnapshot getUser =
+                                        snapshot.data!.docs[i];
                                     user = getUser['Nama'];
                                   }
                                   return ElevatedButton(

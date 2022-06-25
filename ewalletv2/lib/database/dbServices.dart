@@ -71,6 +71,13 @@ class DatabaseUser {
     return tblUser.where('Notelp', isEqualTo: notelpPengirim).snapshots();
   }
 
+  static Future<List> getUserData(String noTelp) async {
+    QuerySnapshot querySnapshot =
+        await tblUser.where('notelp', isEqualTo: noTelp).get();
+    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return data;
+  }
+
   // static Future<Stream<QuerySnapshot<Object?>>> login(
   //     {required final email, required final passcode}) async {
   //   Stream<QuerySnapshot> user = tblUser
