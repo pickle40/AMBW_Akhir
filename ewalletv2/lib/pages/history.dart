@@ -1,3 +1,5 @@
+import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
@@ -12,6 +14,24 @@ class History extends StatefulWidget {
 
 class _History extends State {
   String login_user = "081322116644";
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    _selectedIndex = index;
+    setState(() {
+      if (index == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => home()));
+      } else if (index == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => profile()));
+      } else if (index == 2) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => History()));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -85,6 +105,24 @@ class _History extends State {
                 return Center(child: const CircularProgressIndicator());
               }
             }),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex, //New
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Riwayat',
+            ),
+          ],
+        ),
       ),
     );
   }

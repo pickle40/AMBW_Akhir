@@ -1,5 +1,6 @@
 import 'package:ewalletv2/pages/deposit.dart';
 import 'package:ewalletv2/pages/history.dart';
+import 'package:ewalletv2/pages/profile.dart';
 import 'package:ewalletv2/pages/tarikDana.dart';
 import 'package:ewalletv2/pages/transfer.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,23 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+      if (index == 0) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => home()));
+      } else if (index == 1) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => profile()));
+      } else if (index == 2) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => History()));
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -379,6 +397,24 @@ class _homeState extends State<home> {
                 ],
               ),
             )
+          ],
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex, //New
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.people),
+              label: 'Profile',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              label: 'Riwayat',
+            ),
           ],
         ),
       ),

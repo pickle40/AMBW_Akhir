@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore_web: ^2.6.17
   firebase_auth: ^3.3.20
   grouped_list: ^5.1.2
+  footer: ^0.0.4
 
 dev_dependencies:
   flutter_test:
