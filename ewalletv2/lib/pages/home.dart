@@ -18,7 +18,7 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  String loggedInUser_notelp = "";
+  String loggedInUser_noTelp = "";
 
   @override
   void initState() {
@@ -27,14 +27,10 @@ class _homeState extends State<home> {
     getLoggedInUserData();
   }
 
-  // Future<void> setLoggedInUserData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString("loggedIn_noTelp", "081322116644");
-  // }
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
     });
   }
 
@@ -64,7 +60,7 @@ class _homeState extends State<home> {
           title: Text("OWO E-Wallet"),
         ),
         body: FutureBuilder<List>(
-          future: DatabaseUser.getUserData(loggedInUser_notelp),
+          future: DatabaseUser.getUserData(loggedInUser_noTelp),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return ListView(

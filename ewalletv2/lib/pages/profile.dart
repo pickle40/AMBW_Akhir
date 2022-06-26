@@ -1,5 +1,6 @@
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/main.dart';
 import 'package:ewalletv2/pages/editprofile.dart';
 import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/home.dart';
@@ -18,7 +19,7 @@ class _profileState extends State<profile> {
   bool panel1 = false;
   bool panel2 = false;
   bool panel3 = false;
-  String loggedInUser_notelp = "";
+  String loggedInUser_noTelp = "";
   int _selectedIndex = 1;
   @override
   void initState() {
@@ -29,7 +30,14 @@ class _profileState extends State<profile> {
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
+
+  Future<void> logout() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setBool("isLoggedIn", false);
     });
   }
 
@@ -57,7 +65,7 @@ class _profileState extends State<profile> {
           title: Text("My Profile"),
         ),
         body: FutureBuilder<List>(
-          future: DatabaseUser.getUserData(loggedInUser_notelp),
+          future: DatabaseUser.getUserData(loggedInUser_noTelp),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return ListView(
@@ -515,7 +523,14 @@ class _profileState extends State<profile> {
                                 Expanded(
                                   child: Container(
                                     child: ElevatedButton(
-                                        onPressed: () {},
+                                        onPressed: () {
+                                          logout();
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyApp()));
+                                        },
                                         child: Text("Sign Out")),
                                   ),
                                 )

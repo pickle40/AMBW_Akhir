@@ -14,13 +14,13 @@ class History extends StatefulWidget {
 }
 
 class _History extends State {
-  String loggedInUser_notelp = "";
+  String loggedInUser_noTelp = "";
   int _selectedIndex = 2;
 
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
     });
   }
 
@@ -55,7 +55,7 @@ class _History extends State {
           title: Text("Riwayat Transaksi"),
         ),
         body: FutureBuilder<List<dynamic>>(
-            future: DatabaseHistory.getGroupedData(loggedInUser_notelp),
+            future: DatabaseHistory.getGroupedData(loggedInUser_noTelp),
             builder: (context, future) {
               if (future.hasData || future.data != null) {
                 return GroupedListView<dynamic, String>(
