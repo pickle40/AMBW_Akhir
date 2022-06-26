@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/deposit.dart';
 import 'package:ewalletv2/pages/history.dart';
@@ -100,32 +101,32 @@ class _homeState extends State<home> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(bottom: 5),
-                                      child: Text(
-                                        NumberFormat.currency(locale: 'id')
-                                            .format(snapshot.data![0]['uang']),
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      child: Text(
-                                        "Rek. " + snapshot.data![0]['norek'],
-                                        style: TextStyle(
-                                            fontSize: 14, color: Colors.white),
-                                      ),
-                                    )
-                                  ],
-                                )
+                                // Row(
+                                //   children: [
+                                //     Container(
+                                //       margin: EdgeInsets.only(bottom: 5),
+                                //       child: Text(
+                                //         NumberFormat.currency(locale: 'id')
+                                //             .format(snapshot.data![0]['uang']),
+                                //         style: TextStyle(
+                                //             fontSize: 24,
+                                //             fontWeight: FontWeight.bold,
+                                //             color: Colors.white),
+                                //       ),
+                                //     ),
+                                //   ],
+                                // ),
+                                // Row(
+                                //   children: [
+                                //     Container(
+                                //       child: Text(
+                                //         "Rek. " + snapshot.data![0]['norek'],
+                                //         style: TextStyle(
+                                //             fontSize: 14, color: Colors.white),
+                                //       ),
+                                //     )
+                                //   ],
+                                // )
                               ],
                             ),
                           ))

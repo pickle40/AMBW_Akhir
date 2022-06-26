@@ -1,3 +1,5 @@
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
+import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
 
 import '../main.dart';
@@ -187,6 +189,15 @@ class _RegisterState extends State<Register> {
 
                             //       await FirebaseFirestore.instance.collection("User").doc(user.notelp).set(data)
                             //     })
+                            final dtUser = User(
+                                alamat: "",
+                                email: email,
+                                nama: name,
+                                norek: "",
+                                notelp: telp,
+                                uang: 0,
+                                passcode: password);
+                            DatabaseUser.tambahData(user: dtUser);
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(

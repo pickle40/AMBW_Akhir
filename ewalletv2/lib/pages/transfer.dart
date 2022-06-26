@@ -52,10 +52,10 @@ class _TransferState extends State<Transfer> {
                     SizedBox(height: 20),
                     ElevatedButton.icon(
                       onPressed: () {
-                        // Navigator.push(
-                        //     context,
-                        //     new MaterialPageRoute(
-                        //         builder: (context) => transferOWO()));
+                        Navigator.push(
+                            context,
+                            new MaterialPageRoute(
+                                builder: (context) => transferOWO()));
                       },
                       icon: Icon(
                         Icons.mobile_screen_share,

@@ -54,45 +54,54 @@ class _tarikDanaState extends State<tarikDana> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Wrap(
-                        spacing: 25,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.access_alarm_outlined,
-                            color: Colors.black,
-                          ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Colors.grey,
+                              ),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(8)),
+                            ),
+                            child: Expanded(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(15),
+                                    child: Icon(Icons.timelapse_rounded),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                          child: Text(
                                 "ATM BCA",
                                 style: TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18),
                               ),
-                              Text(
+                                        ),
+                                        Text(
                                 "Metode Penarikan",
                                 style: TextStyle(
                                   color: Colors.grey,
                                   fontSize: 12,
                                 ),
                               ),
-                            ],
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 25),
                     Container(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

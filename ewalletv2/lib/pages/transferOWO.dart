@@ -8,15 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class transferOWO extends StatefulWidget {
-  final String userlogin;
-  const transferOWO({Key? key, required this.userlogin}) : super(key: key);
+  const transferOWO({Key? key}) : super(key: key);
 
   @override
   State<transferOWO> createState() => _transferOWOState();
 }
 
 class _transferOWOState extends State<transferOWO> {
-  //String noTelp = "081";
+  String loggedInUser_noTelp = "";
   String noTelpPenerima = "";
   String msg = "";
   int nominaltf = 0;
@@ -28,6 +27,19 @@ class _transferOWOState extends State<transferOWO> {
   int NominalPengirim = 0;
 
   @override
+  void initState() {
+    super.initState();
+    getLoggedInUserData();
+  }
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -37,9 +49,10 @@ class _transferOWOState extends State<transferOWO> {
           title: Text("Transfer Sesama OWO"),
         ),
         body: StreamBuilder<QuerySnapshot>(
-          stream: DatabaseUser.getDataPengirim(notelpPengirim: widget.userlogin),
+          stream:
+              DatabaseUser.getDataPengirim(notelpPengirim: loggedInUser_noTelp),
           builder: (context, snapshot) {
-            if (snapshot.hasData || snapshot.data != null) {
+            if (snapshot.hasData && snapshot.data != null) {
               for (int i = 0; i < snapshot.data!.docs.length; i++) {
                 DocumentSnapshot dataPengirim = snapshot.data!.docs[i];
                 NamaPengirim = dataPengirim['Nama'];
@@ -124,33 +137,36 @@ class _transferOWOState extends State<transferOWO> {
                                   BorderRadius.all(Radius.circular(8)),
                             ),
                             child: Expanded(
-                                child: Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(15),
-                                  child: Icon(Icons.timelapse_rounded),
-                                ),
-                                Container(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Container(
-                                        margin: EdgeInsets.fromLTRB(0, 0, 0, 5),
-                                        child: Text(
-                                          "OWO Cash",
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: 16),
-                                        ),
-                                      ),
-                                      Text("Saldo Rp ${NominalPengirim}")
-                                    ],
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(15),
+                                    child: Icon(Icons.timelapse_rounded),
                                   ),
-                                )
-                              ],
-                            )),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                          child: Text(
+                                            "OWO Cash",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                        Text("Saldo Rp ${NominalPengirim}")
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(16, 20, 16, 30),
@@ -218,7 +234,7 @@ class _transferOWOState extends State<transferOWO> {
                                       child: StreamBuilder<QuerySnapshot>(
                                         stream:
                                             DatabaseKategori.filterDataKategori(
-                                                notelp: widget.userlogin),
+                                                notelp: loggedInUser_noTelp),
                                         builder: (context, snapshot) {
                                           if (snapshot.hasData ||
                                               snapshot.data != null) {
@@ -292,7 +308,7 @@ class _transferOWOState extends State<transferOWO> {
                                 String NamaPenerima = "";
                                 String noTelpPenerima = "";
                                 int NominalPenerima = 0;
-                                if (snapshot.hasData || snapshot.data != null) {
+                                if (snapshot.hasData && snapshot.data != null) {
                                   for (int i = 0;
                                       i < snapshot.data!.docs.length;
                                       i++) {
