@@ -4,6 +4,7 @@ import 'package:ewalletv2/main.dart';
 import 'package:ewalletv2/pages/editprofile.dart';
 import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/qr_image.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -406,28 +407,40 @@ class _profileState extends State<profile> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(10),
-                                        border: Border.all(
-                                            color: Color.fromARGB(
-                                                255, 230, 223, 223))),
-                                    padding:
-                                        EdgeInsets.fromLTRB(45, 10, 45, 10),
-                                    margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Container(
-                                          child: Icon(Icons.qr_code),
-                                        ),
-                                        Container(
-                                          margin:
-                                              EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                          child: Text("QR Code"),
-                                        )
-                                      ],
+                                  child: InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => Qrimage(
+                                                    norek: snapshot.data![0]
+                                                        ['norek'],
+                                                  )));
+                                    },
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          border: Border.all(
+                                              color: Color.fromARGB(
+                                                  255, 230, 223, 223))),
+                                      padding:
+                                          EdgeInsets.fromLTRB(45, 10, 45, 10),
+                                      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            child: Icon(Icons.qr_code),
+                                          ),
+                                          Container(
+                                            margin: EdgeInsets.fromLTRB(
+                                                10, 0, 0, 0),
+                                            child: Text("QR Code"),
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
