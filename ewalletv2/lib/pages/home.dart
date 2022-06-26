@@ -19,6 +19,12 @@ class home extends StatefulWidget {
 
 class _homeState extends State<home> {
   String loggedInUser_noTelp = "";
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  void showInSnackBar(String value) {
+    _scaffoldKey.currentState!
+        .showSnackBar(new SnackBar(content: new Text(value)));
+  }
 
   @override
   void initState() {
@@ -56,6 +62,7 @@ class _homeState extends State<home> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: Text("OWO E-Wallet"),
         ),
@@ -300,82 +307,102 @@ class _homeState extends State<home> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Icon(
-                                        Icons.phone_android,
-                                        color: Colors.lightBlue,
+                                InkWell(
+                                  onTap: () {
+                                    showInSnackBar("Coming Soon");
+                                  },
+                                  child: Container(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Icon(
+                                          Icons.phone_android,
+                                          color: Colors.lightBlue,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Text("Pulsa"),
-                                    )
-                                  ],
-                                )),
-                                Container(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Icon(
-                                        Icons.signal_cellular_alt_sharp,
-                                        color: Colors.lightBlue,
+                                      Container(
+                                        child: Text("Pulsa"),
+                                      )
+                                    ],
+                                  )),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showInSnackBar("Coming Soon");
+                                  },
+                                  child: Container(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Icon(
+                                          Icons.signal_cellular_alt_sharp,
+                                          color: Colors.lightBlue,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Text("Paket Data"),
-                                    )
-                                  ],
-                                )),
-                                Container(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Icon(
-                                        Icons.electrical_services,
-                                        color: Colors.lightBlue,
+                                      Container(
+                                        child: Text("Paket Data"),
+                                      )
+                                    ],
+                                  )),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showInSnackBar("Coming Soon");
+                                  },
+                                  child: Container(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Icon(
+                                          Icons.electrical_services,
+                                          color: Colors.lightBlue,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Text("PLN"),
-                                    )
-                                  ],
-                                )),
-                                Container(
-                                    child: Column(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade200,
-                                          borderRadius:
-                                              BorderRadius.circular(50)),
-                                      child: Icon(
-                                        Icons.note_alt,
-                                        color: Colors.lightBlue,
+                                      Container(
+                                        child: Text("PLN"),
+                                      )
+                                    ],
+                                  )),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    showInSnackBar("Coming Soon");
+                                  },
+                                  child: Container(
+                                      child: Column(
+                                    children: [
+                                      Container(
+                                        padding: EdgeInsets.all(15),
+                                        decoration: BoxDecoration(
+                                            color: Colors.grey.shade200,
+                                            borderRadius:
+                                                BorderRadius.circular(50)),
+                                        child: Icon(
+                                          Icons.note_alt,
+                                          color: Colors.lightBlue,
+                                        ),
                                       ),
-                                    ),
-                                    Container(
-                                      child: Text("Invest"),
-                                    )
-                                  ],
-                                )),
+                                      Container(
+                                        child: Text("Invest"),
+                                      )
+                                    ],
+                                  )),
+                                ),
                               ],
                             ),
                           ))
@@ -449,8 +476,8 @@ class _homeState extends State<home> {
               label: 'Profile',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.list),
-              label: 'Riwayat',
+              icon: Icon(Icons.history),
+              label: 'History',
             ),
           ],
         ),
