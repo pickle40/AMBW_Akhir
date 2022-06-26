@@ -20,7 +20,7 @@ class _EditprofileState extends State<Editprofile> {
   final _txt_email = TextEditingController();
   final _txt_alamat = TextEditingController();
   final _txt_passcode = TextEditingController();
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
   @override
   void dispose() {

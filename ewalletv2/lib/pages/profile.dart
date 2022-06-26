@@ -18,7 +18,7 @@ class _profileState extends State<profile> {
   bool panel2 = false;
   bool panel3 = false;
   String login_user = "081322116644";
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   @override
   void initState() {
     super.initState();

@@ -14,7 +14,7 @@ class History extends StatefulWidget {
 
 class _History extends State {
   String login_user = "081322116644";
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   void _onItemTapped(int index) {
     _selectedIndex = index;
