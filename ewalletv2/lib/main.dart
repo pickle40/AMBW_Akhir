@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'database/authServices.dart';
 import 'firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -52,6 +53,12 @@ class _MyAppState extends State<MyApp> {
     _passcontroller.dispose();
 
     super.dispose();
+  }
+
+  Future<void> setLoggedInUserData(String _notelp, bool isLoggedIn) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("loggedIn_noTelp", _notelp);
+    prefs.setBool("isLoggedIn", isLoggedIn);
   }
 
   @override
@@ -349,6 +356,8 @@ class _MyAppState extends State<MyApp> {
                                     DocumentSnapshot getUser =
                                         snapshot.data!.docs[i];
                                     user = getUser['notelp'];
+                                    setLoggedInUserData(
+                                        getUser['notelp'], true);
                                   }
                                   return ElevatedButton(
                                       onPressed: () {}, child: Text(user));
@@ -363,11 +372,15 @@ class _MyAppState extends State<MyApp> {
                                 }
                               },
                             );
+                            // Navigator.push(
+                            //     context,
+                            //     new MaterialPageRoute(
+                            //         builder: (context) =>
+                            //             transferOWO(userlogin: user)));
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(
-                                    builder: (context) =>
-                                        transferOWO(userlogin: user)));
+                                    builder: (context) => home()));
                           }
                         },
                         child: Text("Sign In"),

@@ -18,7 +18,26 @@ class home extends StatefulWidget {
 }
 
 class _homeState extends State<home> {
-  String login_user = "081322116644";
+  String loggedInUser_notelp = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLoggedInUserData();
+  }
+
+  // Future<void> setLoggedInUserData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString("loggedIn_noTelp", "081322116644");
+  // }
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
+
   int _selectedIndex = 0;
   void _onItemTapped(int index) {
     setState(() {
@@ -45,7 +64,7 @@ class _homeState extends State<home> {
           title: Text("OWO E-Wallet"),
         ),
         body: FutureBuilder<List>(
-          future: DatabaseUser.getUserData(login_user),
+          future: DatabaseUser.getUserData(loggedInUser_notelp),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return ListView(

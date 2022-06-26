@@ -5,6 +5,7 @@ import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class profile extends StatefulWidget {
   const profile({Key? key}) : super(key: key);
@@ -17,11 +18,19 @@ class _profileState extends State<profile> {
   bool panel1 = false;
   bool panel2 = false;
   bool panel3 = false;
-  String login_user = "081322116644";
+  String loggedInUser_notelp = "";
   int _selectedIndex = 1;
   @override
   void initState() {
     super.initState();
+    getLoggedInUserData();
+  }
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+    });
   }
 
   void _onItemTapped(int index) {
@@ -48,7 +57,7 @@ class _profileState extends State<profile> {
           title: Text("My Profile"),
         ),
         body: FutureBuilder<List>(
-          future: DatabaseUser.getUserData(login_user),
+          future: DatabaseUser.getUserData(loggedInUser_notelp),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data != null) {
               return ListView(

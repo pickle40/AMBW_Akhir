@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grouped_list/grouped_list.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../database/dbServices.dart';
 
@@ -13,8 +14,22 @@ class History extends StatefulWidget {
 }
 
 class _History extends State {
-  String login_user = "081322116644";
+  String loggedInUser_notelp = "";
   int _selectedIndex = 2;
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_notelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getLoggedInUserData();
+  }
 
   void _onItemTapped(int index) {
     _selectedIndex = index;
@@ -40,7 +55,7 @@ class _History extends State {
           title: Text("Riwayat Transaksi"),
         ),
         body: FutureBuilder<List<dynamic>>(
-            future: DatabaseHistory.getGroupedData(login_user),
+            future: DatabaseHistory.getGroupedData(loggedInUser_notelp),
             builder: (context, future) {
               if (future.hasData || future.data != null) {
                 return GroupedListView<dynamic, String>(
