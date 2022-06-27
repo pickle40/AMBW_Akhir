@@ -1,3 +1,7 @@
+import 'package:ewalletv2/database/dataClass/dcHistory.dart';
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
+import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,9 +13,9 @@ class deposit extends StatefulWidget {
 }
 
 class _depositState extends State<deposit> {
-  int balance = 100;
-  int y = 15;
-  String norek = "102847192";
+  int nominaltf = 0;
+  int saldo = 0;
+  //String norek = "102847192";
   String loggedInUser_noTelp = "";
 
   //untuk Button
@@ -112,7 +116,7 @@ class _depositState extends State<deposit> {
                                               fontSize: 16),
                                         ),
                                       ),
-                                      Text("Saldo Rp ${balance}")
+                                      //Text("Saldo Rp ${balance}")
                                     ],
                                   ),
                                 )
@@ -201,7 +205,7 @@ class _depositState extends State<deposit> {
                                   labelText: "Minimal Rp. 10.000",
                                 ),
                                 onChanged: (nominal) {
-                                  balance = int.parse(nominal);
+                                  nominaltf = int.parse(nominal);
                                 },
                               ),
                               Container(
@@ -220,80 +224,196 @@ class _depositState extends State<deposit> {
                                         ),
                                       ),
                                       SizedBox(height: 20),
-                                      Container(
-                                        child: hasaddedbank == false
-                                            ? Container(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.add_card_outlined,
-                                                      color: Colors.green,
-                                                      size: 30,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      mainAxisSize:
-                                                          MainAxisSize.min,
-                                                      children: [
-                                                        Text(
-                                                          "BCA",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.black,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                              fontSize: 18),
-                                                        ),
-                                                        Text(
-                                                          "${norek}",
-                                                          style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 18,
+                                      FutureBuilder<List>(
+                                        future: DatabaseUser.getUserData(
+                                            loggedInUser_noTelp),
+                                        builder: (context, future) {
+                                          if (future.hasData &&
+                                              future.data != null) {
+                                            return Container(
+                                              child:
+                                                  future.data![0]['norek'] ==
+                                                              "" ||
+                                                          future.data![0]
+                                                                  ['norek'] !=
+                                                              null
+                                                      ? Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Icon(
+                                                                Icons
+                                                                    .add_card_outlined,
+                                                                color: Colors
+                                                                    .green,
+                                                                size: 30,
+                                                              ),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .start,
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .min,
+                                                                children: [
+                                                                  Text(
+                                                                    "BCA",
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .black,
+                                                                        fontWeight:
+                                                                            FontWeight
+                                                                                .bold,
+                                                                        fontSize:
+                                                                            18),
+                                                                  ),
+                                                                  Text(
+                                                                    future.data![
+                                                                            0][
+                                                                        'norek'],
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    width: 200,
+                                                                    child:
+                                                                        TextField(
+                                                                      textDirection:
+                                                                          TextDirection
+                                                                              .ltr,
+                                                                      decoration:
+                                                                          InputDecoration(
+                                                                        hintText:
+                                                                            "${nominaltf}",
+                                                                        hintStyle:
+                                                                            TextStyle(
+                                                                          fontSize:
+                                                                              16,
+                                                                          color:
+                                                                              Colors.black,
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                        ),
+                                                                      ),
+                                                                      onChanged:
+                                                                          (nominal) {
+                                                                        nominaltf =
+                                                                            int.parse(nominal);
+                                                                      },
+                                                                      keyboardType:
+                                                                          TextInputType
+                                                                              .number,
+                                                                    ),
+                                                                  ),
+                                                                  Center(
+                                                                    child:
+                                                                        ElevatedButton(
+                                                                      onPressed:
+                                                                          () {
+                                                                        if (nominaltf.isNaN ||
+                                                                            nominaltf.isNegative) {
+                                                                          ScaffoldMessenger.of(context)
+                                                                              .showSnackBar(
+                                                                            SnackBar(content: Text("Isi jumlah deposit.")),
+                                                                          );
+                                                                        } else {
+                                                                          saldo = future.data![0]['uang'] + nominaltf;
+                                                                          final dtuserbalance = User(
+                                                                              alamat: future.data![0]['alamat'],
+                                                                              email: future.data![0]['email'],
+                                                                              nama: future.data![0]['nama'],
+                                                                              norek: future.data![0]['norek'],
+                                                                              notelp: loggedInUser_noTelp,
+                                                                              uang: saldo,
+                                                                              passcode: future.data![0]['passcode']);
+                                                                          DatabaseUser.updateData(data: dtuserbalance);
+
+                                                                          final dthistory = History(
+                                                                              Kategori: "Pendapatan",
+                                                                              subKategori: "Deposit",
+                                                                              Nama: future.data![0]['nama'],
+                                                                              NoTelp: loggedInUser_noTelp,
+                                                                              Nominal: nominaltf,
+                                                                              TanggalTransaksi: "27-06-2022");
+                                                                          DatabaseHistory.tambahData(history: dthistory);
+
+                                                                          Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(builder: (context) => home()));
+                                                                        }
+                                                                      },
+                                                                      child: Text(
+                                                                          "Kirim Sekarang"),
+                                                                      style: OutlinedButton
+                                                                          .styleFrom(
+                                                                        backgroundColor:
+                                                                            Colors.lightGreenAccent,
+                                                                        fixedSize:
+                                                                            Size.fromWidth(350),
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(20),
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        )
+                                                      : Container(
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              IconButton(
+                                                                onPressed:
+                                                                    () {},
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .add_card_outlined,
+                                                                  color: Colors
+                                                                      .green,
+                                                                ),
+                                                              ),
+                                                              Column(
+                                                                crossAxisAlignment:
+                                                                    CrossAxisAlignment
+                                                                        .end,
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                children: [
+                                                                  Text(
+                                                                    "Tambah Kartu Debit BCA",
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: Colors
+                                                                          .grey,
+                                                                      fontSize:
+                                                                          18,
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              )
-                                            : Container(
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(
-                                                        Icons.add_card_outlined,
-                                                        color: Colors.green,
-                                                      ),
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .end,
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        Text(
-                                                          "Tambah Kartu Debit BCA",
-                                                          style: TextStyle(
-                                                            color: Colors.grey,
-                                                            fontSize: 18,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
+                                            );
+                                          } else {
+                                            return Text("Data tidak Ditemukan");
+                                          }
+                                        },
                                       ),
                                       SizedBox(height: 20),
                                       ElevatedButton(

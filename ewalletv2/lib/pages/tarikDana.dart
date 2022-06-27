@@ -15,6 +15,7 @@ class tarikDana extends StatefulWidget {
 
 class _tarikDanaState extends State<tarikDana> {
   int nominaltf = 0;
+  int saldo = 0;
 
   String loggedInUser_noTelp = "";
 
@@ -186,15 +187,15 @@ class _tarikDanaState extends State<tarikDana> {
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (future.data![0]['uang'] >= 50000) {
-                                    nominaltf =
-                                        future.data![0]['uang'] - 50000 - 5000;
+                                    saldo =
+                                        future.data![0]['uang'] - nominaltf - 5000;
                                     final dtuserbalance = User(
                                         alamat: future.data![0]['alamat'],
                                         email: future.data![0]['email'],
                                         nama: future.data![0]['nama'],
                                         norek: future.data![0]['norek'],
                                         notelp: loggedInUser_noTelp,
-                                        uang: nominaltf,
+                                        uang: saldo,
                                         passcode: future.data![0]['passcode']);
                                     DatabaseUser.updateData(
                                         data: dtuserbalance);
@@ -204,11 +205,11 @@ class _tarikDanaState extends State<tarikDana> {
                                         subKategori: "Tarik Dana",
                                         Nama: future.data![0]['nama'],
                                         NoTelp: loggedInUser_noTelp,
-                                        Nominal: nominaltf,
+                                        Nominal: nominaltf + 5000,
                                         TanggalTransaksi: "27-06-2022");
                                     DatabaseHistory.tambahData(
                                         history: dthistory);
-                                        
+
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
