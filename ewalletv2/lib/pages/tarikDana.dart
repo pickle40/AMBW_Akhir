@@ -1,18 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ewalletv2/database/dataClass/dcHistory.dart';
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
+import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class tarikDana extends StatefulWidget {
-  const tarikDana({ Key? key }) : super(key: key);
+  const tarikDana({Key? key}) : super(key: key);
 
   @override
   State<tarikDana> createState() => _tarikDanaState();
 }
 
 class _tarikDanaState extends State<tarikDana> {
-  String msg = "";
-  int balance = 50000;
   int nominaltf = 0;
+
+  String loggedInUser_noTelp = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getLoggedInUserData();
+  }
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,10 +67,16 @@ class _tarikDanaState extends State<tarikDana> {
               ),
               Container(
                 padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
+                child: FutureBuilder<List>(
+                  future: DatabaseUser.getUserData(loggedInUser_noTelp),
+                  builder: (context, future) {
+                    if (future.hasData &&
+                        future.data != null &&
+                        future.data![0]['norek'] != null) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
                             padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                             margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
                             decoration: BoxDecoration(
@@ -81,20 +104,20 @@ class _tarikDanaState extends State<tarikDana> {
                                           margin:
                                               EdgeInsets.fromLTRB(0, 0, 0, 5),
                                           child: Text(
-                                "ATM BCA",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
+                                            "ATM BCA",
+                                            style: TextStyle(
+                                                color: Colors.black,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18),
+                                          ),
                                         ),
                                         Text(
-                                "Metode Penarikan",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
-                              ),
+                                          "Metode Penarikan",
+                                          style: TextStyle(
+                                            color: Colors.grey,
+                                            fontSize: 12,
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -102,78 +125,141 @@ class _tarikDanaState extends State<tarikDana> {
                               ),
                             ),
                           ),
-                    Container(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Nominal Penarikan (Min. Rp. 50.000)",
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.grey,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Nominal Penarikan (Min. Rp. 50.000)",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Rp. ",
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 200,
+                                      child: TextField(
+                                        textDirection: TextDirection.ltr,
+                                        decoration: InputDecoration(
+                                          hintText: "${nominaltf}",
+                                          hintStyle: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        onChanged: (nominal) {
+                                          nominaltf = int.parse(nominal);
+                                        },
+                                        keyboardType: TextInputType.number,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5),
+                                Text(
+                                  "+ Rp. 5.000 biaya admin",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Rp. ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Container(
-                                width: 200,
-                                child: TextField(
-                                  textDirection: TextDirection.ltr,
-                                  decoration: InputDecoration(
-                                    hintText: "${nominaltf}",
-                                    hintStyle: TextStyle(
-                                      fontSize: 16,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                            child: Center(
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  if (future.data![0]['uang'] >= 50000) {
+                                    nominaltf =
+                                        future.data![0]['uang'] - 50000 - 5000;
+                                    final dtuserbalance = User(
+                                        alamat: future.data![0]['alamat'],
+                                        email: future.data![0]['email'],
+                                        nama: future.data![0]['nama'],
+                                        norek: future.data![0]['norek'],
+                                        notelp: loggedInUser_noTelp,
+                                        uang: nominaltf,
+                                        passcode: future.data![0]['passcode']);
+                                    DatabaseUser.updateData(
+                                        data: dtuserbalance);
+
+                                    final dthistory = History(
+                                        Kategori: "Pengeluaran",
+                                        subKategori: "Tarik Dana",
+                                        Nama: future.data![0]['nama'],
+                                        NoTelp: loggedInUser_noTelp,
+                                        Nominal: nominaltf,
+                                        TanggalTransaksi: "27-06-2022");
+                                    DatabaseHistory.tambahData(
+                                        history: dthistory);
+                                        
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => home()));
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Saldo kamu kurang dari 50.000")),
+                                    );
+                                  }
+                                },
+                                child: Text("Kirim Sekarang"),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.lightGreenAccent,
+                                  fixedSize: Size.fromWidth(350),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
-                                  onChanged: (nominal) {
-                                    nominaltf = int.parse(nominal);
-                                  },
-                                  keyboardType: TextInputType.number,
                                 ),
                               ),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            "+ Rp. 5.000 biaya admin",
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Kirim Sekarang"),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.lightGreenAccent,
-                            fixedSize: Size.fromWidth(350),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                      );
+                    } else {
+                      return Center(
+                        child: Column(
+                          children: [
+                            Text(
+                              "Kamu belum memasukan nomor rekening bank.",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    new MaterialPageRoute(
+                                        builder: (context) => home()));
+                              },
+                              child: Text("Kembali"),
+                            ),
+                          ],
                         ),
-                      ),
-                    ),
-                  ],
+                      );
+                    }
+                  },
                 ),
               ),
             ],

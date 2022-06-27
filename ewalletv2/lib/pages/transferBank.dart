@@ -1,3 +1,6 @@
+import 'package:ewalletv2/database/dataClass/dcHistory.dart';
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
+import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,7 +13,6 @@ class transferBank extends StatefulWidget {
 
 class _transferBankState extends State<transferBank> {
   String msg = "";
-  int balance = 50000;
   int nominaltf = 0;
 
   final List<String> contoh = [
@@ -19,7 +21,22 @@ class _transferBankState extends State<transferBank> {
     "BRI",
   ];
 
-  String? menuItem;
+  String loggedInUser_noTelp = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getLoggedInUserData();
+  }
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
+    });
+  }
+
+  var menuItem;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,145 +73,182 @@ class _transferBankState extends State<transferBank> {
               ),
               Container(
                 padding: EdgeInsets.all(8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20),
-                    Text("Bank Tujuan:"),
-                    DropdownButton<String>(
-                      items: contoh.map(buildMenuItem).toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          menuItem = value;
-                        });
-                      },
-                      value: menuItem,
-                    ),
-                    SizedBox(height: 25),
-                    Text(
-                      "Sumber Dana",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: Colors.grey,
+                child: FutureBuilder<List>(
+                  future: DatabaseUser.getUserData(loggedInUser_noTelp),
+                  builder: (context, future) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 20),
+                        Text("Bank Tujuan:"),
+                        DropdownButton<String>(
+                          items: contoh.map(buildMenuItem).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              menuItem = value;
+                            });
+                          },
+                          value: menuItem,
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Wrap(
-                        spacing: 25,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.access_alarm_outlined,
-                            color: Colors.black,
+                        SizedBox(height: 25),
+                        Text(
+                          "Sumber Dana",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.grey,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
+                          ),
+                          child: Wrap(
+                            spacing: 25,
+                            alignment: WrapAlignment.center,
                             children: [
-                              Text(
-                                "Owo Cash",
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
+                              Icon(
+                                Icons.access_alarm_outlined,
+                                color: Colors.black,
                               ),
-                              Text(
-                                "Balance Rp. ${balance}",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 18,
-                                ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Owo Cash",
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18),
+                                  ),
+                                  Text(
+                                    "Saldo Rp. ${future.data![0]['uang']}",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 25),
-                    Container(
-                      padding: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Nominal Transfer",
-                            style: TextStyle(
-                              color: Colors.black,
-                            ),
+                        ),
+                        SizedBox(height: 25),
+                        Container(
+                          padding: EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey,
+                            borderRadius: BorderRadius.all(Radius.circular(8)),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Rp. ",
+                                "Nominal Transfer",
                                 style: TextStyle(
-                                  fontSize: 16,
                                   color: Colors.black,
                                 ),
                               ),
-                              Container(
-                                width: 200,
-                                child: TextField(
-                                  textDirection: TextDirection.ltr,
-                                  decoration: InputDecoration(
-                                    hintText: "${nominaltf}",
-                                    hintStyle: TextStyle(
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Rp. ",
+                                    style: TextStyle(
                                       fontSize: 16,
                                       color: Colors.black,
-                                      fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onChanged: (nominal) {
-                                    nominaltf = int.parse(nominal);
-                                  },
-                                  keyboardType: TextInputType.number,
-                                ),
+                                  Container(
+                                    width: 200,
+                                    child: TextField(
+                                      textDirection: TextDirection.ltr,
+                                      decoration: InputDecoration(
+                                        hintText: "${nominaltf}",
+                                        hintStyle: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      onChanged: (nominal) {
+                                        nominaltf = int.parse(nominal);
+                                      },
+                                      keyboardType: TextInputType.number,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    TextField(
-                      textDirection: TextDirection.ltr,
-                      decoration: InputDecoration(
-                        hintText: "Pesan (opstional)",
-                      ),
-                      minLines: 1,
-                      maxLines: 5,
-                      onChanged: (pesan) {
-                        msg = pesan;
-                      },
-                    ),
-                    Container(
-                      padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                      child: Center(
-                        child: ElevatedButton(
-                          onPressed: () {},
-                          child: Text("Kirim Sekarang"),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Colors.lightGreenAccent,
-                            fixedSize: Size.fromWidth(350),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                        ),
+                        SizedBox(height: 30),
+                        TextField(
+                          textDirection: TextDirection.ltr,
+                          decoration: InputDecoration(
+                            hintText: "Pesan (opstional)",
+                          ),
+                          minLines: 1,
+                          maxLines: 5,
+                          onChanged: (pesan) {
+                            msg = pesan;
+                          },
+                        ),
+                        Container(
+                          padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                          child: Center(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                if(nominaltf != 0){
+                                  nominaltf =
+                                        future.data![0]['uang'] - nominaltf;
+                                    final dtuserbalance = User(
+                                        alamat: future.data![0]['alamat'],
+                                        email: future.data![0]['email'],
+                                        nama: future.data![0]['nama'],
+                                        norek: future.data![0]['norek'],
+                                        notelp: loggedInUser_noTelp,
+                                        uang: nominaltf,
+                                        passcode: future.data![0]['passcode']);
+                                    DatabaseUser.updateData(
+                                        data: dtuserbalance);
+
+                                    final dthistory = History(
+                                        Kategori: "Pengeluaran",
+                                        subKategori: "Transfer Bank $menuItem",
+                                        Nama: future.data![0]['nama'],
+                                        NoTelp: loggedInUser_noTelp,
+                                        Nominal: nominaltf,
+                                        TanggalTransaksi: "27-06-2022");
+                                    DatabaseHistory.tambahData(
+                                        history: dthistory);
+                                }
+                                else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Isi Nominal Transfer kamu.")),
+                                    );
+                                }
+                              },
+                              child: Text("Kirim Sekarang"),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Colors.lightGreenAccent,
+                                fixedSize: Size.fromWidth(350),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ],
+                      ],
+                    );
+                  }
                 ),
               ),
             ],
