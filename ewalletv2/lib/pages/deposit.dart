@@ -151,7 +151,9 @@ class _depositState extends State<deposit> {
                                       OutlinedButton(
                                         onPressed: isActived
                                             ? () {
-                                                setState(() {});
+                                                setState(() {
+                                                  nominaltf = 100000;
+                                                });
                                               }
                                             : null,
                                         child: Text("Rp. 100.000"),
@@ -168,7 +170,9 @@ class _depositState extends State<deposit> {
                                       OutlinedButton(
                                         onPressed: isActived
                                             ? () {
-                                                setState(() {});
+                                                setState(() {
+                                                  nominaltf = 200000;
+                                                });
                                               }
                                             : null,
                                         child: Text("Rp. 200.000"),
@@ -185,7 +189,9 @@ class _depositState extends State<deposit> {
                                       OutlinedButton(
                                         onPressed: isActived
                                             ? () {
-                                                setState(() {});
+                                                setState(() {
+                                                  nominaltf = 500000;
+                                                });
                                               }
                                             : null,
                                         child: Text("Rp. 500.000"),
@@ -293,38 +299,10 @@ class _depositState extends State<deposit> {
                                                                           18,
                                                                     ),
                                                                   ),
-                                                                  Container(
-                                                                    width: 200,
-                                                                    child:
-                                                                        TextField(
-                                                                      textDirection:
-                                                                          TextDirection
-                                                                              .ltr,
-                                                                      decoration:
-                                                                          InputDecoration(
-                                                                        hintText:
-                                                                            "${nominaltf}",
-                                                                        hintStyle:
-                                                                            TextStyle(
-                                                                          fontSize:
-                                                                              16,
-                                                                          color:
-                                                                              Colors.black,
-                                                                          fontWeight:
-                                                                              FontWeight.bold,
-                                                                        ),
-                                                                      ),
-                                                                      onChanged:
-                                                                          (nominal) {
-                                                                        nominaltf =
-                                                                            int.parse(nominal);
-                                                                      },
-                                                                      keyboardType:
-                                                                          TextInputType
-                                                                              .number,
-                                                                    ),
-                                                                  ),
-                                                                  Center(
+                                                                  
+                                                                ],
+                                                              ),
+                                                              Center(
                                                                     child:
                                                                         ElevatedButton(
                                                                       onPressed:
@@ -365,7 +343,7 @@ class _depositState extends State<deposit> {
                                                                         }
                                                                       },
                                                                       child: Text(
-                                                                          "Kirim Sekarang"),
+                                                                          "Top Up Sekarang"),
                                                                       style: OutlinedButton
                                                                           .styleFrom(
                                                                         backgroundColor:
@@ -380,8 +358,6 @@ class _depositState extends State<deposit> {
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                ],
-                                                              ),
                                                             ],
                                                           ),
                                                         )
@@ -432,10 +408,10 @@ class _depositState extends State<deposit> {
                                             },
                                           ),
                                           SizedBox(height: 20),
-                                          ElevatedButton(
-                                            onPressed: () {},
-                                            child: Text("Top Up Sekarang"),
-                                          ),
+                                          // ElevatedButton(
+                                          //   onPressed: () {},
+                                          //   child: Text("Top Up Sekarang"),
+                                          // ),
                                         ],
                                       ),
                                     ),
