@@ -1,6 +1,7 @@
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/addRekening.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -249,12 +250,7 @@ class _depositState extends State<deposit> {
                                               if (future.hasData &&
                                                   future.data != null) {
                                                 return Container(
-                                                  child: future.data![0]
-                                                                  ['norek'] ==
-                                                              "" ||
-                                                          future.data![0]
-                                                                  ['norek'] !=
-                                                              null
+                                                  child: future.data![0]['norek'] != "" || future.data![0]['norek'] != null
                                                       ? Container(
                                                           child: Row(
                                                             mainAxisAlignment:
@@ -288,9 +284,7 @@ class _depositState extends State<deposit> {
                                                                             18),
                                                                   ),
                                                                   Text(
-                                                                    future.data![
-                                                                            0][
-                                                                        'norek'],
+                                                                    future.data![0]['norek'],
                                                                     style:
                                                                         TextStyle(
                                                                       color: Colors
@@ -369,7 +363,11 @@ class _depositState extends State<deposit> {
                                                             children: [
                                                               IconButton(
                                                                 onPressed:
-                                                                    () {},
+                                                                    () {
+                                                                      Navigator.push(
+                                                                              context,
+                                                                              MaterialPageRoute(builder: (context) => addRekening()));
+                                                                    },
                                                                 icon: Icon(
                                                                   Icons
                                                                       .add_card_outlined,

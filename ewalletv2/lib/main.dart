@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/Register.dart';
+import 'package:ewalletv2/pages/addRekening.dart';
 import 'package:ewalletv2/pages/home.dart';
 
 import 'package:ewalletv2/pages/profile.dart';
-import 'package:ewalletv2/pages/transferOWO.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MyApp(),
+      home: addRekening(),
     ),
   );
 }
