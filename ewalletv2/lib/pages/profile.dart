@@ -22,7 +22,7 @@ class _profileState extends State<profile> {
   bool panel3 = false;
   String loggedInUser_noTelp = "";
   int _selectedIndex = 1;
-  
+
   @override
   void initState() {
     super.initState();
@@ -169,120 +169,6 @@ class _profileState extends State<profile> {
                           )),
                         ],
                       ),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //         child: Container(
-                      //       child: ExpansionPanelList(
-                      //         expansionCallback: (panelIndex, isExpanded) {
-                      //           panel1 = !panel1;
-                      //           setState(() {});
-                      //         },
-                      //         children: [
-                      //           ExpansionPanel(
-                      //               headerBuilder: (context, isExpanded) {
-                      //                 return Row(
-                      //                   children: [
-                      //                     Container(
-                      //                       padding:
-                      //                           EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      //                       child: Row(
-                      //                         children: [
-                      //                           Container(
-                      //                             padding: EdgeInsets.all(10),
-                      //                             child: Icon(
-                      //                                 Icons.lock_clock_rounded),
-                      //                           ),
-                      //                           Container(
-                      //                             margin: EdgeInsets.fromLTRB(
-                      //                                 15, 0, 0, 0),
-                      //                             child: Text(
-                      //                               "OVO Premier",
-                      //                               style: TextStyle(
-                      //                                   fontSize: 16,
-                      //                                   fontWeight:
-                      //                                       FontWeight.bold),
-                      //                             ),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     )
-                      //                   ],
-                      //                 );
-                      //               },
-                      //               body: Wrap(
-                      //                 children: [
-                      //                   Container(
-                      //                       padding: EdgeInsets.fromLTRB(
-                      //                           15, 0, 15, 15),
-                      //                       child: Text(
-                      //                           "Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting."))
-                      //                 ],
-                      //               ),
-                      //               isExpanded: panel1,
-                      //               canTapOnHeader: true)
-                      //         ],
-                      //       ),
-                      //     ))
-                      //   ],
-                      // ),
-                      // Row(
-                      //   children: [
-                      //     Expanded(
-                      //         child: Container(
-                      //       child: ExpansionPanelList(
-                      //         expansionCallback: (panelIndex, isExpanded) {
-                      //           panel2 = !panel2;
-                      //           setState(() {});
-                      //         },
-                      //         children: [
-                      //           ExpansionPanel(
-                      //               headerBuilder: (context, isExpanded) {
-                      //                 return Row(
-                      //                   children: [
-                      //                     Container(
-                      //                       padding:
-                      //                           EdgeInsets.fromLTRB(10, 0, 0, 0),
-                      //                       child: Row(
-                      //                         children: [
-                      //                           Container(
-                      //                             padding: EdgeInsets.all(10),
-                      //                             child: Icon(
-                      //                                 Icons.lock_clock_rounded),
-                      //                           ),
-                      //                           Container(
-                      //                             margin: EdgeInsets.fromLTRB(
-                      //                                 15, 0, 0, 0),
-                      //                             child: Text(
-                      //                               "OVO Points",
-                      //                               style: TextStyle(
-                      //                                   fontSize: 16,
-                      //                                   fontWeight:
-                      //                                       FontWeight.bold),
-                      //                             ),
-                      //                           ),
-                      //                         ],
-                      //                       ),
-                      //                     )
-                      //                   ],
-                      //                 );
-                      //               },
-                      //               body: Wrap(
-                      //                 children: [
-                      //                   Container(
-                      //                       padding: EdgeInsets.fromLTRB(
-                      //                           15, 0, 15, 15),
-                      //                       child: Text(
-                      //                           "Lorem Ipsum adalah contoh teks atau dummy dalam industri percetakan dan penataan huruf atau typesetting."))
-                      //                 ],
-                      //               ),
-                      //               isExpanded: panel2,
-                      //               canTapOnHeader: true)
-                      //         ],
-                      //       ),
-                      //     ))
-                      //   ],
-                      // ),
                       Row(
                         children: [
                           Expanded(
@@ -379,7 +265,6 @@ class _profileState extends State<profile> {
                           ))
                         ],
                       ),
-
                       Row(
                         children: [
                           Container(
@@ -445,28 +330,6 @@ class _profileState extends State<profile> {
                                     ),
                                   ),
                                 ),
-                                // Container(
-                                //   decoration: BoxDecoration(
-                                //       borderRadius: BorderRadius.circular(10),
-                                //       border: Border.all(
-                                //           color: Color.fromARGB(
-                                //               255, 230, 223, 223))),
-                                //   padding:
-                                //       EdgeInsets.fromLTRB(45, 10, 45, 10),
-                                //   margin: EdgeInsets.fromLTRB(5, 0, 0, 0),
-                                //   child: Row(
-                                //     children: [
-                                //       Container(
-                                //         child: Icon(Icons.qr_code_2),
-                                //       ),
-                                //       Container(
-                                //         margin:
-                                //             EdgeInsets.fromLTRB(10, 0, 0, 0),
-                                //         child: Text("QR Code"),
-                                //       )
-                                //     ],
-                                //   ),
-                                // )
                               ],
                             ),
                           ))
