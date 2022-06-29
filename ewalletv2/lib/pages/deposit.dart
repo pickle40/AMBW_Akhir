@@ -250,9 +250,14 @@ class _depositState extends State<deposit> {
                                               if (future.hasData &&
                                                   future.data != null) {
                                                 return Container(
-                                                  child: future.data![0]['norek'] != "" || future.data![0]['norek'] != null
+                                                  child: future.data![0]
+                                                                  ['norek'] !=
+                                                              "" ||
+                                                          future.data![0]
+                                                                  ['norek'] !=
+                                                              null
                                                       ? Container(
-                                                          child: Row(
+                                                          child: Column(
                                                             mainAxisAlignment:
                                                                 MainAxisAlignment
                                                                     .spaceBetween,
@@ -264,7 +269,7 @@ class _depositState extends State<deposit> {
                                                                     .green,
                                                                 size: 30,
                                                               ),
-                                                              Column(
+                                                              Row(
                                                                 crossAxisAlignment:
                                                                     CrossAxisAlignment
                                                                         .start,
@@ -284,7 +289,9 @@ class _depositState extends State<deposit> {
                                                                             18),
                                                                   ),
                                                                   Text(
-                                                                    future.data![0]['norek'],
+                                                                    future.data![
+                                                                            0][
+                                                                        'norek'],
                                                                     style:
                                                                         TextStyle(
                                                                       color: Colors
@@ -293,65 +300,95 @@ class _depositState extends State<deposit> {
                                                                           18,
                                                                     ),
                                                                   ),
-                                                                  
                                                                 ],
                                                               ),
                                                               Center(
-                                                                    child:
-                                                                        ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        if (nominaltf.isNaN ||
-                                                                            nominaltf.isNegative) {
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(content: Text("Isi jumlah deposit.")),
-                                                                          );
-                                                                        } else {
-                                                                          saldo =
-                                                                              future.data![0]['uang'] + nominaltf;
-                                                                          final dtuserbalance = User(
-                                                                              alamat: future.data![0]['alamat'],
-                                                                              email: future.data![0]['email'],
-                                                                              nama: future.data![0]['nama'],
-                                                                              norek: future.data![0]['norek'],
-                                                                              notelp: loggedInUser_noTelp,
-                                                                              uang: saldo,
-                                                                              passcode: future.data![0]['passcode']);
-                                                                          DatabaseUser.updateData(
-                                                                              data: dtuserbalance);
+                                                                child:
+                                                                    ElevatedButton(
+                                                                  onPressed:
+                                                                      () {
+                                                                    if (nominaltf
+                                                                            .isNaN ||
+                                                                        nominaltf
+                                                                            .isNegative) {
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                            content:
+                                                                                Text("Isi jumlah deposit.")),
+                                                                      );
+                                                                    } else {
+                                                                      saldo = future.data![0]
+                                                                              [
+                                                                              'uang'] +
+                                                                          nominaltf;
+                                                                      final dtuserbalance = User(
+                                                                          alamat: future.data![0]
+                                                                              [
+                                                                              'alamat'],
+                                                                          email: future.data![0]
+                                                                              [
+                                                                              'email'],
+                                                                          nama: future.data![0]
+                                                                              [
+                                                                              'nama'],
+                                                                          norek: future.data![0]
+                                                                              [
+                                                                              'norek'],
+                                                                          notelp:
+                                                                              loggedInUser_noTelp,
+                                                                          uang:
+                                                                              saldo,
+                                                                          passcode:
+                                                                              future.data![0]['passcode']);
+                                                                      DatabaseUser.updateData(
+                                                                          data:
+                                                                              dtuserbalance);
 
-                                                                          final dthistory = History(
-                                                                              Kategori: "Pendapatan",
-                                                                              subKategori: "Deposit",
-                                                                              Nama: future.data![0]['nama'],
-                                                                              NoTelp: loggedInUser_noTelp,
-                                                                              Nominal: nominaltf,
-                                                                              TanggalTransaksi: "27-06-2022");
-                                                                          DatabaseHistory.tambahData(
-                                                                              history: dthistory);
+                                                                      final dthistory = History(
+                                                                          Kategori:
+                                                                              "Pendapatan",
+                                                                          subKategori:
+                                                                              "Deposit",
+                                                                          Nama: future.data![0]
+                                                                              [
+                                                                              'nama'],
+                                                                          NoTelp:
+                                                                              loggedInUser_noTelp,
+                                                                          Nominal:
+                                                                              nominaltf,
+                                                                          TanggalTransaksi:
+                                                                              "27-06-2022");
+                                                                      DatabaseHistory.tambahData(
+                                                                          history:
+                                                                              dthistory);
 
-                                                                          Navigator.push(
-                                                                              context,
-                                                                              MaterialPageRoute(builder: (context) => home()));
-                                                                        }
-                                                                      },
-                                                                      child: Text(
-                                                                          "Top Up Sekarang"),
-                                                                      style: OutlinedButton
-                                                                          .styleFrom(
-                                                                        backgroundColor:
-                                                                            Colors.lightGreenAccent,
-                                                                        fixedSize:
-                                                                            Size.fromWidth(350),
-                                                                        shape:
-                                                                            RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(20),
-                                                                        ),
-                                                                      ),
+                                                                      Navigator.push(
+                                                                          context,
+                                                                          MaterialPageRoute(
+                                                                              builder: (context) => home()));
+                                                                    }
+                                                                  },
+                                                                  child: Text(
+                                                                      "Top Up Sekarang"),
+                                                                  style: OutlinedButton
+                                                                      .styleFrom(
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .lightGreenAccent,
+                                                                    fixedSize: Size
+                                                                        .fromWidth(
+                                                                            350),
+                                                                    shape:
+                                                                        RoundedRectangleBorder(
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              20),
                                                                     ),
                                                                   ),
+                                                                ),
+                                                              ),
                                                             ],
                                                           ),
                                                         )
@@ -362,12 +399,13 @@ class _depositState extends State<deposit> {
                                                                     .spaceBetween,
                                                             children: [
                                                               IconButton(
-                                                                onPressed:
-                                                                    () {
-                                                                      Navigator.push(
-                                                                              context,
-                                                                              MaterialPageRoute(builder: (context) => addRekening()));
-                                                                    },
+                                                                onPressed: () {
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              addRekening()));
+                                                                },
                                                                 icon: Icon(
                                                                   Icons
                                                                       .add_card_outlined,

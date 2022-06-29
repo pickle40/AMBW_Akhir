@@ -20,7 +20,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: addRekening(),
+      home: MyApp(),
     ),
   );
 }
