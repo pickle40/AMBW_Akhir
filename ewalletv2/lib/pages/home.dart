@@ -39,7 +39,6 @@ class _homeState extends State<home> {
     getLoggedInUserData();
   }
 
-
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -56,7 +55,7 @@ class _homeState extends State<home> {
             context, MaterialPageRoute(builder: (context) => home()));
       } else if (index == 1) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => scanQR()));
+            context, MaterialPageRoute(builder: (context) => profile()));
       } else if (index == 2) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => profile()));
@@ -481,10 +480,10 @@ class _homeState extends State<home> {
               icon: Icon(Icons.home),
               label: 'Home',
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code),
-              label: 'ScanQR',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Icon(Icons.qr_code),
+            //   label: 'ScanQR',
+            // ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people),
               label: 'Profile',

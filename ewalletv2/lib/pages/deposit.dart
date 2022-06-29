@@ -1,6 +1,7 @@
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/main.dart';
 import 'package:ewalletv2/pages/addRekening.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -63,7 +64,12 @@ class _depositState extends State<deposit> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   IconButton(
-                                    onPressed: Navigator.of(context).pop,
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => home()));
+                                    },
                                     icon: Icon(
                                       Icons.arrow_back,
                                       color: Colors.black,
