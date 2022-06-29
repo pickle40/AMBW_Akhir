@@ -414,8 +414,8 @@ class _profileState extends State<profile> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) => Qrimage(
-                                                    norek: snapshot.data![0]
-                                                        ['norek'],
+                                                    notelp: snapshot.data![0]
+                                                        ['notelp'],
                                                   )));
                                     },
                                     child: Container(

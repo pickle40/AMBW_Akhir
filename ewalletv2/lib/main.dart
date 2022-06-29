@@ -3,13 +3,11 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/Register.dart';
 import 'package:ewalletv2/pages/addRekening.dart';
 import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/scanQR.dart';
 
-import 'package:ewalletv2/pages/profile.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-import 'database/authServices.dart';
 import 'firebase_options.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +18,7 @@ void main() async {
   runApp(
     MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: addRekening(),
+      home: MyApp(),
     ),
   );
 }

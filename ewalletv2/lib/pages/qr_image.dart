@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class Qrimage extends StatefulWidget {
-  final String? norek;
-  const Qrimage({Key? key, required this.norek}) : super(key: key);
+  final String? notelp;
+  const Qrimage({Key? key, required this.notelp}) : super(key: key);
 
   @override
   _QrimageState createState() => _QrimageState();
@@ -45,14 +45,14 @@ class _QrimageState extends State<Qrimage> {
                 children: [
                   Container(
                     child: QrImage(
-                      data: widget.norek.toString(),
+                      data: widget.notelp.toString(),
                       version: QrVersions.auto,
                       size: 350.0,
                     ),
                   ),
                   Container(
                     child: Text(
-                      widget.norek.toString(),
+                      widget.notelp.toString(),
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
