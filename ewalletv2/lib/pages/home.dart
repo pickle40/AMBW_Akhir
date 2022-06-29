@@ -3,13 +3,15 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/deposit.dart';
 import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/profile.dart';
+import 'package:ewalletv2/pages/scanQR.dart';
 import 'package:ewalletv2/pages/tarikDana.dart';
 import 'package:ewalletv2/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
+
+import 'package:flutter/services.dart';
 
 class home extends StatefulWidget {
   const home({Key? key}) : super(key: key);
@@ -27,12 +29,16 @@ class _homeState extends State<home> {
         .showSnackBar(new SnackBar(content: new Text(value)));
   }
 
+  //define scanQR
+  String _scanBarcode = 'Unknown';
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getLoggedInUserData();
   }
+
 
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -50,8 +56,11 @@ class _homeState extends State<home> {
             context, MaterialPageRoute(builder: (context) => home()));
       } else if (index == 1) {
         Navigator.push(
-            context, MaterialPageRoute(builder: (context) => profile()));
+            context, MaterialPageRoute(builder: (context) => scanQR()));
       } else if (index == 2) {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => profile()));
+      } else if (index == 3) {
         Navigator.push(
             context, MaterialPageRoute(builder: (context) => History()));
       }
@@ -471,6 +480,10 @@ class _homeState extends State<home> {
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.qr_code),
+              label: 'ScanQR',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.people),
