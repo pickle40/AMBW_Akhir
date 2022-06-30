@@ -7,3 +7,7 @@
 
 2. IconButton
 - https://www.flutterbeads.com/button-with-icon-and-text-flutter/
+
+3. Scan QR
+- https://pub.dev/packages/qr_code_scanner
+- https://www.youtube.com/watch?v=hHehIGfX_yU

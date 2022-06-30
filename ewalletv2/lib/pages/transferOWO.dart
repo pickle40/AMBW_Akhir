@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
+import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,15 @@ class _transferOWOState extends State<transferOWO> {
   String noTelpPenerima = "";
   String msg = "";
   int nominaltf = 0;
+  int saldoPenerima = 0;
+  int saldoPengirim = 0;
+
+  //testing
+  // String notelptesting = "031";
+  // String notelppenerimatesting = "081322116644";
 
   var menuItem;
 
-  String NamaPengirim = "";
-  String noTelpPengirim = "";
   int NominalPengirim = 0;
 
   @override
@@ -48,17 +53,16 @@ class _transferOWOState extends State<transferOWO> {
         appBar: AppBar(
           title: Text("Transfer Sesama OWO"),
         ),
-        body: StreamBuilder<QuerySnapshot>(
-          stream:
-              DatabaseUser.getDataPengirim(notelpPengirim: loggedInUser_noTelp),
-          builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data != null) {
-              for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                DocumentSnapshot dataPengirim = snapshot.data!.docs[i];
-                NamaPengirim = dataPengirim['Nama'];
-                noTelpPengirim = dataPengirim['Notelp'];
-                NominalPengirim = dataPengirim['Uang'];
-              }
+        body: FutureBuilder<List>(
+          future: DatabaseUser.getUserData(loggedInUser_noTelp),
+          builder: (context, future) {
+            if (future.hasData && future.data != null) {
+              // for (int i = 0; i < snapshot.data!.docs.length; i++) {
+              //   DocumentSnapshot dataPengirim = snapshot.data!.docs[i];
+              //   NamaPengirim = dataPengirim['Nama'];
+              //   noTelpPengirim = dataPengirim['Notelp'];
+              //   NominalPengirim = dataPengirim['Uang'];
+              // }
 
               return Container(
                 child: Wrap(
@@ -160,7 +164,7 @@ class _transferOWOState extends State<transferOWO> {
                                                 fontSize: 16),
                                           ),
                                         ),
-                                        Text("Saldo Rp ${NominalPengirim}")
+                                        Text("Saldo Rp ${future.data![0]['uang']}")
                                       ],
                                     ),
                                   )
@@ -300,55 +304,75 @@ class _transferOWOState extends State<transferOWO> {
                           ),
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: StreamBuilder<QuerySnapshot>(
+                            child: FutureBuilder<List>(
                               //stream harus bisa dapat data penerima dan pengirim
-                              stream: DatabaseUser.getDataPenerima(
-                                  notelpPenerima: noTelpPenerima),
+                              future: DatabaseUser.getUserDataPenerima(
+                                  noTelpPenerima),
                               builder: (context, snapshot) {
-                                String NamaPenerima = "";
-                                String noTelpPenerima = "";
-                                int NominalPenerima = 0;
                                 if (snapshot.hasData && snapshot.data != null) {
-                                  for (int i = 0;
-                                      i < snapshot.data!.docs.length;
-                                      i++) {
-                                    DocumentSnapshot dataPenerima =
-                                        snapshot.data!.docs[i];
-                                    NamaPenerima = dataPenerima['Nama'];
-                                    noTelpPenerima = dataPenerima['Notelp'];
-                                    NominalPenerima = dataPenerima['Uang'];
-                                  }
+                                  // for (int i = 0;
+                                  //     i < snapshot.data!.docs.length;
+                                  //     i++) {
+                                  //   DocumentSnapshot dataPenerima =
+                                  //       snapshot.data!.docs[i];
+                                  //   NamaPenerima = dataPenerima['Nama'];
+                                  //   noTelpPenerima = dataPenerima['Notelp'];
+                                  //   NominalPenerima = dataPenerima['Uang'];
+                                  // }
                                   return Center(
                                     child: ElevatedButton(
                                       onPressed: () {
                                         //Untuk Penerima
+                                        saldoPenerima = snapshot.data![0]['uang'] + nominaltf;
                                         final dtPenerima = History(
                                             Kategori: "Pendapatan",
-                                            subKategori: "",
+                                            subKategori: "Transfer",
                                             //Nama Pengirim
-                                            Nama: NamaPengirim,
+                                            Nama: future.data![0]['nama'],
                                             //nomor telepon pengirim
-                                            NoTelp: noTelpPengirim,
+                                            NoTelp: future.data![0]['notelp'],
                                             //nominal penerima (nominal penerima saat ini + nominal yang dikirim)
-                                            Nominal:
-                                                NominalPenerima + nominaltf,
+                                            Nominal: nominaltf,
                                             TanggalTransaksi: "22-06-2022");
                                         DatabaseHistory.tambahData(
                                             history: dtPenerima);
+                                        final dtupdatepenerima = User(
+                                            alamat: snapshot.data![0]['alamat'],
+                                            email: snapshot.data![0]['email'],
+                                            nama: snapshot.data![0]['nama'],
+                                            norek: snapshot.data![0]['norek'],
+                                            notelp: snapshot.data![0]['notelp'],
+                                            uang: saldoPenerima,
+                                            passcode: snapshot.data![0]['passcode']);
+                                        DatabaseUser.updateData(
+                                            data: dtupdatepenerima);
+
                                         //Untuk pengirim
+                                        saldoPengirim =
+                                            future.data![0]['uang'] - nominaltf;
                                         final dtPengirim = History(
                                             Kategori: "Pengeluaran",
                                             subKategori: menuItem,
                                             //Nama Penerima
-                                            Nama: NamaPenerima,
+                                            Nama: snapshot.data![0]['nama'],
                                             //nomor telepon penerima
-                                            NoTelp: noTelpPenerima,
+                                            NoTelp: snapshot.data![0]['notelp'],
                                             //nominal pengirim (nominal pengirim saat ini - nominal yang dikirim)
-                                            Nominal:
-                                                NominalPengirim - nominaltf,
+                                            Nominal: nominaltf,
                                             TanggalTransaksi: "22-06-2022");
                                         DatabaseHistory.tambahData(
                                             history: dtPengirim);
+                                        final dtupdatepengirim = User(
+                                            alamat: snapshot.data![0]['alamat'],
+                                            email: snapshot.data![0]['email'],
+                                            nama: snapshot.data![0]['nama'],
+                                            norek: snapshot.data![0]['norek'],
+                                            notelp: snapshot.data![0]['notelp'],
+                                            uang: saldoPengirim,
+                                            passcode: snapshot.data![0]['passcode']);
+                                        DatabaseUser.updateData(
+                                            data: dtupdatepengirim);
+
                                         Navigator.push(
                                             context,
                                             new MaterialPageRoute(
@@ -357,7 +381,7 @@ class _transferOWOState extends State<transferOWO> {
                                       child: Text("Kirim Sekarang"),
                                       style: OutlinedButton.styleFrom(
                                         backgroundColor:
-                                            Colors.lightGreenAccent,
+                                            Colors.lightBlueAccent,
                                         fixedSize: Size.fromWidth(350),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:

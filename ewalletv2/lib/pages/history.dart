@@ -17,6 +17,9 @@ class _History extends State {
   String loggedInUser_noTelp = "";
   int _selectedIndex = 2;
 
+  //testing
+  String notelptesting = "081322116644";
+
   Future<void> getLoggedInUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -87,15 +90,32 @@ class _History extends State {
                       margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
                       child: Column(
                         children: [
+                          // Container(
+                          //   alignment: Alignment.topLeft,
+                          //   margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
+                          //   child: Text(element["Nama"],
+                          //       style: TextStyle(
+                          //           fontSize: 17, fontWeight: FontWeight.bold)),
+                          // ),
                           Container(
                             alignment: Alignment.topLeft,
-                            margin: EdgeInsets.fromLTRB(0, 0, 0, 10),
-                            child: Text(element["Nama"],
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  element["Nama"],
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(element["subKategori"].toString().isEmpty ? "" : element["subKategori"].toString(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
                           ),
                           Container(
-                            child: Row(
+                            child: element["Kategori"].toUpperCase() == "PENGELUARAN" ? 
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
@@ -106,7 +126,22 @@ class _History extends State {
                                 Text(
                                   NumberFormat.currency(locale: 'id')
                                       .format(element["Nominal"]),
-                                  style: TextStyle(color: Colors.orange),
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ],
+                            ) :
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  element["Kategori"].toUpperCase(),
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                                Text(
+                                  NumberFormat.currency(locale: 'id')
+                                      .format(element["Nominal"]),
+                                  style: TextStyle(color: Colors.green),
                                 ),
                               ],
                             ),

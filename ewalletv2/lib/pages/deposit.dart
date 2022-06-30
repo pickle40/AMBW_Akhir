@@ -19,6 +19,7 @@ class _depositState extends State<deposit> {
   int saldo = 0;
   //String norek = "102847192";
   String loggedInUser_noTelp = "";
+  String notelptesting = "081081081999";
 
   //untuk Button
   bool isActived = true;
@@ -47,9 +48,9 @@ class _depositState extends State<deposit> {
             title: Text("Deposit"),
           ),
           body: FutureBuilder<List>(
-              future: DatabaseUser.getUserData(loggedInUser_noTelp),
-              builder: (context, snapshot) {
-                if (snapshot.hasData && snapshot.data != null) {
+              future: DatabaseUser.getUserData(notelptesting),
+              builder: (context, future) {
+                if (future.hasData && future.data != null) {
                   return ListView(
                     shrinkWrap: true,
                     children: [
@@ -278,160 +279,150 @@ class _depositState extends State<deposit> {
                                                     ),
                                                     SizedBox(height: 20),
                                                     Container(
-                                                      child: snapshot.data![0][
-                                                                      'norek'] !=
-                                                                  "" ||
-                                                              snapshot.data![0][
-                                                                      'norek'] !=
-                                                                  null
-                                                          ? Container(
-                                                              child: Column(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  Icon(
-                                                                    Icons
-                                                                        .add_card_outlined,
+                                                        child: Container(
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .card_membership,
+                                                            color: Colors.green,
+                                                            size: 30,
+                                                          ),
+                                                          Row(
+                                                            crossAxisAlignment:
+                                                                CrossAxisAlignment
+                                                                    .start,
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .min,
+                                                            children: [
+                                                              Text(
+                                                                "BCA",
+                                                                style: TextStyle(
                                                                     color: Colors
-                                                                        .green,
-                                                                    size: 30,
-                                                                  ),
-                                                                  Row(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .start,
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .min,
-                                                                    children: [
-                                                                      Text(
-                                                                        "BCA",
-                                                                        style: TextStyle(
-                                                                            color:
-                                                                                Colors.black,
-                                                                            fontWeight: FontWeight.bold,
-                                                                            fontSize: 18),
-                                                                      ),
-                                                                      Text(
-                                                                        snapshot.data![0]
-                                                                            [
-                                                                            'norek'],
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.grey,
-                                                                          fontSize:
-                                                                              18,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  Center(
-                                                                    child:
-                                                                        ElevatedButton(
-                                                                      onPressed:
-                                                                          () {
-                                                                        if (nominaltf.isNaN ||
-                                                                            nominaltf.isNegative) {
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .showSnackBar(
-                                                                            SnackBar(content: Text("Isi jumlah deposit.")),
-                                                                          );
-                                                                        } else {
-                                                                          saldo =
-                                                                              snapshot.data![0]['uang'] + nominaltf;
-                                                                          final dtuserbalance = User(
-                                                                              alamat: snapshot.data![0]['alamat'],
-                                                                              email: snapshot.data![0]['email'],
-                                                                              nama: snapshot.data![0]['nama'],
-                                                                              norek: snapshot.data![0]['norek'],
-                                                                              notelp: loggedInUser_noTelp,
-                                                                              uang: saldo,
-                                                                              passcode: snapshot.data![0]['passcode']);
-                                                                          DatabaseUser.updateData(
-                                                                              data: dtuserbalance);
-
-                                                                          final dthistory = History(
-                                                                              Kategori: "Pendapatan",
-                                                                              subKategori: "Deposit",
-                                                                              Nama: snapshot.data![0]['nama'],
-                                                                              NoTelp: loggedInUser_noTelp,
-                                                                              Nominal: nominaltf,
-                                                                              TanggalTransaksi: "27-06-2022");
-                                                                          DatabaseHistory.tambahData(
-                                                                              history: dthistory);
-
-                                                                          Navigator.push(
-                                                                              context,
-                                                                              MaterialPageRoute(builder: (context) => home()));
-                                                                        }
-                                                                      },
-                                                                      child: Text(
-                                                                          "Top Up Sekarang"),
-                                                                      style: OutlinedButton
-                                                                          .styleFrom(
-                                                                        backgroundColor:
-                                                                            Colors.lightGreenAccent,
-                                                                        fixedSize:
-                                                                            Size.fromWidth(350),
-                                                                        shape:
-                                                                            RoundedRectangleBorder(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(20),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                ],
+                                                                        .black,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        18),
                                                               ),
-                                                            )
-                                                          : Container(
-                                                              child: Row(
-                                                                mainAxisAlignment:
-                                                                    MainAxisAlignment
-                                                                        .spaceBetween,
-                                                                children: [
-                                                                  IconButton(
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.push(
-                                                                          context,
-                                                                          MaterialPageRoute(
-                                                                              builder: (context) => addRekening()));
-                                                                    },
-                                                                    icon: Icon(
-                                                                      Icons
-                                                                          .add_card_outlined,
-                                                                      color: Colors
-                                                                          .green,
-                                                                    ),
-                                                                  ),
-                                                                  Column(
-                                                                    crossAxisAlignment:
-                                                                        CrossAxisAlignment
-                                                                            .end,
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    children: [
-                                                                      Text(
-                                                                        "Tambah Kartu Debit BCA",
-                                                                        style:
-                                                                            TextStyle(
-                                                                          color:
-                                                                              Colors.grey,
-                                                                          fontSize:
-                                                                              18,
-                                                                        ),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                ],
+                                                              Text(
+                                                                future.data![0]
+                                                                    ['norek'],
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: Colors
+                                                                      .grey,
+                                                                  fontSize: 18,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          SizedBox(height: 20),
+                                                          Center(
+                                                            child:
+                                                                ElevatedButton(
+                                                              onPressed: () {
+                                                                if (nominaltf.isNaN ||
+                                                                    nominaltf
+                                                                        .isNegative ||
+                                                                    nominaltf <
+                                                                        10000) {
+                                                                  ScaffoldMessenger.of(
+                                                                          context)
+                                                                      .showSnackBar(
+                                                                    SnackBar(
+                                                                        content:
+                                                                            Text("Jumlah deposit kurang dari 10000.")),
+                                                                  );
+                                                                } else {
+                                                                  saldo = future
+                                                                              .data![0]
+                                                                          [
+                                                                          'uang'] +
+                                                                      nominaltf;
+                                                                  final dtuserbalance = User(
+                                                                      alamat: future.data![0][
+                                                                          'alamat'],
+                                                                      email: future
+                                                                              .data![0][
+                                                                          'email'],
+                                                                      nama: future
+                                                                              .data![0]
+                                                                          [
+                                                                          'nama'],
+                                                                      norek:
+                                                                          future.data![0]
+                                                                              [
+                                                                              'norek'],
+                                                                      notelp:
+                                                                          notelptesting,
+                                                                      uang:
+                                                                          saldo,
+                                                                      passcode:
+                                                                          future.data![0]
+                                                                              ['passcode']);
+                                                                  DatabaseUser
+                                                                      .updateData(
+                                                                          data:
+                                                                              dtuserbalance);
+
+                                                                  final dthistory = History(
+                                                                      Kategori:
+                                                                          "Pendapatan",
+                                                                      subKategori:
+                                                                          "Deposit",
+                                                                      Nama: future
+                                                                              .data![0]
+                                                                          [
+                                                                          'nama'],
+                                                                      NoTelp:
+                                                                          notelptesting,
+                                                                      Nominal:
+                                                                          nominaltf,
+                                                                      TanggalTransaksi:
+                                                                          "27-06-2022");
+                                                                  DatabaseHistory
+                                                                      .tambahData(
+                                                                          history:
+                                                                              dthistory);
+
+                                                                  // Navigator.push(
+                                                                  //     context,
+                                                                  //     MaterialPageRoute(
+                                                                  //         builder: (context) =>
+                                                                  //             home()));
+                                                                }
+                                                              },
+                                                              child: Text(
+                                                                  "Top Up Sekarang"),
+                                                              style:
+                                                                  OutlinedButton
+                                                                      .styleFrom(
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .lightGreenAccent,
+                                                                fixedSize: Size
+                                                                    .fromWidth(
+                                                                        350),
+                                                                shape:
+                                                                    RoundedRectangleBorder(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              20),
+                                                                ),
                                                               ),
                                                             ),
-                                                    ),
-                                                    SizedBox(height: 20),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    )),
+
                                                     // ElevatedButton(
                                                     //   onPressed: () {},
                                                     //   child: Text("Top Up Sekarang"),

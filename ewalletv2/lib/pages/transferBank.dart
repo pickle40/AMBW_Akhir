@@ -1,6 +1,7 @@
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
+import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,7 +13,7 @@ class transferBank extends StatefulWidget {
 }
 
 class _transferBankState extends State<transferBank> {
-  String msg = "";
+  String loggedInUser_noTelp = "";
   int nominaltf = 0;
   int saldo = 0;
 
@@ -22,7 +23,8 @@ class _transferBankState extends State<transferBank> {
     "BRI",
   ];
 
-  String loggedInUser_noTelp = "";
+  //untuk testing
+  // String notelptesting = "081322116644";
 
   @override
   void initState() {
@@ -100,7 +102,8 @@ class _transferBankState extends State<transferBank> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(0, 16, 0, 0),
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
+                            margin: EdgeInsets.fromLTRB(0, 10, 0, 25),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: Colors.grey,
@@ -108,38 +111,39 @@ class _transferBankState extends State<transferBank> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8)),
                             ),
-                            child: Wrap(
-                              spacing: 25,
-                              alignment: WrapAlignment.center,
-                              children: [
-                                Icon(
-                                  Icons.access_alarm_outlined,
-                                  color: Colors.black,
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      "Owo Cash",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18),
+                            child: Expanded(
+                              child: Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(15),
+                                    child: Icon(Icons.timelapse_rounded),
+                                  ),
+                                  Container(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 0, 5),
+                                          child: Text(
+                                            "OWO Cash",
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16),
+                                          ),
+                                        ),
+                                        Text("Saldo Rp 0")
+                                      ],
                                     ),
-                                    Text(
-                                      "Saldo Rp. ${future.data![0]['uang']}",
-                                      style: TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
-                          SizedBox(height: 25),
+                          SizedBox(height: 20),
                           Container(
                             padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
@@ -189,46 +193,50 @@ class _transferBankState extends State<transferBank> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 30),
-                          TextField(
-                            textDirection: TextDirection.ltr,
-                            decoration: InputDecoration(
-                              hintText: "Pesan (opstional)",
-                            ),
-                            minLines: 1,
-                            maxLines: 5,
-                            onChanged: (pesan) {
-                              msg = pesan;
-                            },
-                          ),
+
                           Container(
                             padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
                             child: Center(
                               child: ElevatedButton(
                                 onPressed: () {
                                   if (nominaltf != 0) {
-                                    saldo =
-                                        future.data![0]['uang'] - nominaltf;
-                                    final dtuserbalance = User(
-                                        alamat: future.data![0]['alamat'],
-                                        email: future.data![0]['email'],
-                                        nama: future.data![0]['nama'],
-                                        norek: future.data![0]['norek'],
-                                        notelp: loggedInUser_noTelp,
-                                        uang: saldo,
-                                        passcode: future.data![0]['passcode']);
-                                    DatabaseUser.updateData(
-                                        data: dtuserbalance);
+                                    if (future.data![0]['uang'] >= nominaltf) {
+                                      saldo =
+                                          future.data![0]['uang'] - nominaltf;
+                                      final dtuserbalance = User(
+                                          alamat: future.data![0]['alamat'],
+                                          email: future.data![0]['email'],
+                                          nama: future.data![0]['nama'],
+                                          norek: future.data![0]['norek'],
+                                          notelp: future.data![0]['notelp'],
+                                          uang: saldo,
+                                          passcode: future.data![0]
+                                              ['passcode']);
+                                      DatabaseUser.updateData(
+                                          data: dtuserbalance);
 
-                                    final dthistory = History(
-                                        Kategori: "Pengeluaran",
-                                        subKategori: "Transfer Bank $menuItem",
-                                        Nama: future.data![0]['nama'],
-                                        NoTelp: loggedInUser_noTelp,
-                                        Nominal: nominaltf,
-                                        TanggalTransaksi: "27-06-2022");
-                                    DatabaseHistory.tambahData(
-                                        history: dthistory);
+                                      final dthistory = History(
+                                          Kategori: "Pengeluaran",
+                                          subKategori:
+                                              "Transfer Bank $menuItem",
+                                          Nama: future.data![0]['nama'],
+                                          NoTelp: future.data![0]['notelp'],
+                                          Nominal: nominaltf,
+                                          TanggalTransaksi: "27-06-2022");
+                                      DatabaseHistory.tambahData(
+                                          history: dthistory);
+                                      
+                                      Navigator.push(
+                                        context,
+                                            new MaterialPageRoute(
+                                            builder: (context) => home()));
+                                    } else {
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              "Saldo Owo kamu tidak cukup.")),
+                                    );
+                                    }
                                   } else {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -239,7 +247,7 @@ class _transferBankState extends State<transferBank> {
                                 },
                                 child: Text("Kirim Sekarang"),
                                 style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.lightGreenAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                   fixedSize: Size.fromWidth(350),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),

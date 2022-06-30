@@ -16,11 +16,17 @@ class _RegisterState extends State<Register> {
   final _passcontroller = TextEditingController();
   final _namecontroller = TextEditingController();
   final _telpcontroller = TextEditingController();
+  final _norekcontroller = TextEditingController();
+  final _alamatcontroller = TextEditingController();
 
   @override
   void dispose() {
     _emailcontroller.dispose();
     _passcontroller.dispose();
+    _namecontroller.dispose();
+    _telpcontroller.dispose();
+    _norekcontroller.dispose();
+    _alamatcontroller.dispose();
 
     super.dispose();
   }
@@ -34,7 +40,7 @@ class _RegisterState extends State<Register> {
           title: Text("oWopay"),
           centerTitle: true,
         ),
-        backgroundColor: Colors.red[900],
+        backgroundColor: Colors.lightBlueAccent,
         body: SafeArea(
           child: Center(
             child: Column(
@@ -120,6 +126,52 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
 
+                SizedBox(height: 30),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _alamatcontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Alamat',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[100],
+                      border: Border.all(color: Colors.white),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 20.0),
+                      child: TextField(
+                        controller: _norekcontroller,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          hintText: 'Nomor Rekening',
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
                 SizedBox(height: 20),
 
                 Padding(
@@ -156,6 +208,8 @@ class _RegisterState extends State<Register> {
                           final String password = _passcontroller.text.trim();
                           final String name = _namecontroller.text.trim();
                           final String telp = _telpcontroller.text.trim();
+                          final String alamat = _alamatcontroller.text.trim();
+                          final String norekening = _norekcontroller.text.trim();
 
                           if (email.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -181,7 +235,19 @@ class _RegisterState extends State<Register> {
                                 content: Text("No Telepon kamu masih kosong"),
                               ),
                             );
-                          } else {
+                          } else if (alamat.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Alamat kamu masih kosong"),
+                              ),
+                            );
+                          } else if (norekening.isEmpty) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Nomor Rekening kamu masih kosong"),
+                              ),
+                            );
+                          }else {
                             // context
                             //     .read<AuthService>()
                             //     .Register(email, password).then((value) async {
@@ -190,10 +256,10 @@ class _RegisterState extends State<Register> {
                             //       await FirebaseFirestore.instance.collection("User").doc(user.notelp).set(data)
                             //     })
                             final dtUser = User(
-                                alamat: "",
+                                alamat: alamat,
                                 email: email,
                                 nama: name,
-                                norek: "",
+                                norek: norekening,
                                 notelp: telp,
                                 uang: 0,
                                 passcode: password);
@@ -206,7 +272,7 @@ class _RegisterState extends State<Register> {
                         },
                         child: Text("Sign Up"),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.red[100],
+                          backgroundColor: Colors.blueAccent,
                           fixedSize: Size.fromWidth(350),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),

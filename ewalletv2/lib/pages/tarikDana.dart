@@ -19,6 +19,9 @@ class _tarikDanaState extends State<tarikDana> {
 
   String loggedInUser_noTelp = "";
 
+  //untuk testing
+  // String notelptesting = "081322116644";
+
   @override
   void initState() {
     super.initState();
@@ -186,15 +189,15 @@ class _tarikDanaState extends State<tarikDana> {
                             child: Center(
                               child: ElevatedButton(
                                 onPressed: () {
-                                  if (future.data![0]['uang'] >= 50000) {
+                                  if (future.data![0]['uang'] - 5000 >= 50000) {
                                     saldo =
-                                        future.data![0]['uang'] - nominaltf - 5000;
+                                        future.data![0]['uang'] - nominaltf;
                                     final dtuserbalance = User(
                                         alamat: future.data![0]['alamat'],
                                         email: future.data![0]['email'],
                                         nama: future.data![0]['nama'],
                                         norek: future.data![0]['norek'],
-                                        notelp: loggedInUser_noTelp,
+                                        notelp: future.data![0]['notelp'],
                                         uang: saldo,
                                         passcode: future.data![0]['passcode']);
                                     DatabaseUser.updateData(
@@ -204,8 +207,8 @@ class _tarikDanaState extends State<tarikDana> {
                                         Kategori: "Pengeluaran",
                                         subKategori: "Tarik Dana",
                                         Nama: future.data![0]['nama'],
-                                        NoTelp: loggedInUser_noTelp,
-                                        Nominal: nominaltf + 5000,
+                                        NoTelp: future.data![0]['notelp'],
+                                        Nominal: nominaltf - 5000,
                                         TanggalTransaksi: "27-06-2022");
                                     DatabaseHistory.tambahData(
                                         history: dthistory);
@@ -224,7 +227,7 @@ class _tarikDanaState extends State<tarikDana> {
                                 },
                                 child: Text("Kirim Sekarang"),
                                 style: OutlinedButton.styleFrom(
-                                  backgroundColor: Colors.lightGreenAccent,
+                                  backgroundColor: Colors.lightBlueAccent,
                                   fixedSize: Size.fromWidth(350),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(20),

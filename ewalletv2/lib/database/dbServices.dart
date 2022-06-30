@@ -23,7 +23,7 @@ class DatabaseHistory {
   }
 
   static Future<void> tambahData({required History history}) async {
-    DocumentReference docRef = tblHistory.doc(history.NoTelp);
+    DocumentReference docRef = tblHistory.doc();
 
     await docRef
         .set(history.toJson())
@@ -79,6 +79,13 @@ class DatabaseUser {
     return data;
   }
 
+  static Future<List> getUserDataPenerima(String noTelp) async {
+    QuerySnapshot querySnapshot =
+        await tblUser.where('notelp', isEqualTo: noTelp).get();
+    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return data;
+  }
+
   static Future<void> updateData({required User data}) async {
     DocumentReference docRef = tblUser.doc(data.notelp);
     await docRef
@@ -112,6 +119,13 @@ class DatabaseUser {
         .where('email', isEqualTo: email)
         .where('passcode', isEqualTo: passcode)
         .snapshots();
+  }
+
+  static Future<List> getUserDataLogin(String email, String passcode) async {
+    QuerySnapshot querySnapshot =
+        await tblUser.where('email', isEqualTo: email).where('passcode', isEqualTo: passcode).get();
+    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return data;
   }
 
   static Future<void> tambahData({required User user}) async {

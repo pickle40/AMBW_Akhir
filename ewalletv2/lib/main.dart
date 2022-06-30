@@ -2,8 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/Register.dart';
 import 'package:ewalletv2/pages/addRekening.dart';
+import 'package:ewalletv2/pages/deposit.dart';
+import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:ewalletv2/pages/scanQR.dart';
+import 'package:ewalletv2/pages/tarikDana.dart';
+import 'package:ewalletv2/pages/transferBank.dart';
+import 'package:ewalletv2/pages/transferOWO.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -65,9 +70,8 @@ class _MyAppState extends State<MyApp> {
       appBar: AppBar(
         centerTitle: true,
         title: Text("oWopay"),
-        backgroundColor: Color.fromARGB(255, 82, 10, 4),
       ),
-      backgroundColor: Colors.red[900],
+      backgroundColor: Colors.lightBlueAccent,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
@@ -383,7 +387,7 @@ class _MyAppState extends State<MyApp> {
                         },
                         child: Text("Sign In"),
                         style: OutlinedButton.styleFrom(
-                          backgroundColor: Colors.red[100],
+                          backgroundColor: Colors.blueAccent,
                           fixedSize: Size.fromWidth(350),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(12),
