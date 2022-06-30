@@ -124,7 +124,7 @@ class _History extends State {
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 Text(
-                                  NumberFormat.currency(locale: 'id')
+                                  "- " + NumberFormat.currency(locale: 'id')
                                       .format(element["Nominal"]),
                                   style: TextStyle(color: Colors.red),
                                 ),
@@ -139,7 +139,7 @@ class _History extends State {
                                   style: TextStyle(fontSize: 12),
                                 ),
                                 Text(
-                                  NumberFormat.currency(locale: 'id')
+                                  "+ " + NumberFormat.currency(locale: 'id')
                                       .format(element["Nominal"]),
                                   style: TextStyle(color: Colors.green),
                                 ),
