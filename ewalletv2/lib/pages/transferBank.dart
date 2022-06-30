@@ -4,6 +4,7 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class transferBank extends StatefulWidget {
   const transferBank({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class transferBank extends StatefulWidget {
 
 class _transferBankState extends State<transferBank> {
   String loggedInUser_noTelp = "";
+  String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
   int nominaltf = 0;
   int saldo = 0;
 
@@ -135,7 +137,14 @@ class _transferBankState extends State<transferBank> {
                                                 fontSize: 16),
                                           ),
                                         ),
-                                        Text("Saldo Rp 0")
+                                        Text(
+                                        NumberFormat.currency(locale: 'id')
+                                            .format(future.data![0]['uang']),
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                       ],
                                     ),
                                   )
@@ -173,7 +182,6 @@ class _transferBankState extends State<transferBank> {
                                     Container(
                                       width: 200,
                                       child: TextField(
-                                        textDirection: TextDirection.ltr,
                                         decoration: InputDecoration(
                                           hintText: "${nominaltf}",
                                           hintStyle: TextStyle(
@@ -222,7 +230,7 @@ class _transferBankState extends State<transferBank> {
                                           Nama: future.data![0]['nama'],
                                           NoTelp: future.data![0]['notelp'],
                                           Nominal: nominaltf,
-                                          TanggalTransaksi: "27-06-2022");
+                                          TanggalTransaksi: date);
                                       DatabaseHistory.tambahData(
                                           history: dthistory);
                                       

@@ -7,6 +7,7 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class transferOWO extends StatefulWidget {
   const transferOWO({Key? key}) : super(key: key);
@@ -18,14 +19,14 @@ class transferOWO extends StatefulWidget {
 class _transferOWOState extends State<transferOWO> {
   String loggedInUser_noTelp = "";
   String noTelpPenerima = "";
-  String msg = "";
+  String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
   int nominaltf = 0;
   int saldoPenerima = 0;
   int saldoPengirim = 0;
 
   //testing
-  // String notelptesting = "031";
-  // String notelppenerimatesting = "081322116644";
+  String notelptesting = "031";
+  String notelppenerimatesting = "081322116644";
 
   var menuItem;
 
@@ -104,7 +105,6 @@ class _transferOWOState extends State<transferOWO> {
                                   children: [
                                     Expanded(
                                       child: TextField(
-                                        textDirection: TextDirection.ltr,
                                         decoration: InputDecoration(
                                           //border: OutlineInputBorder(),
                                           labelText: "Masukkan nomor ponsel",
@@ -164,7 +164,14 @@ class _transferOWOState extends State<transferOWO> {
                                                 fontSize: 16),
                                           ),
                                         ),
-                                        Text("Saldo Rp ${future.data![0]['uang']}")
+                                        Text(
+                                        NumberFormat.currency(locale: 'id')
+                                            .format(future.data![0]['uang']),
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                       ],
                                     ),
                                   )
@@ -201,7 +208,6 @@ class _transferOWOState extends State<transferOWO> {
                                     Container(
                                       width: 200,
                                       child: TextField(
-                                        textDirection: TextDirection.ltr,
                                         decoration: InputDecoration(
                                           hintText: "${nominaltf}",
                                           hintStyle: TextStyle(
@@ -289,20 +295,6 @@ class _transferOWOState extends State<transferOWO> {
                             ),
                           ),
                           Container(
-                            padding: EdgeInsets.all(5),
-                            child: TextField(
-                              textDirection: TextDirection.ltr,
-                              decoration: InputDecoration(
-                                hintText: "Pesan (optional)",
-                              ),
-                              minLines: 1,
-                              maxLines: 5,
-                              onChanged: (pesan) {
-                                msg = pesan;
-                              },
-                            ),
-                          ),
-                          Container(
                             padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                             child: FutureBuilder<List>(
                               //stream harus bisa dapat data penerima dan pengirim
@@ -333,7 +325,7 @@ class _transferOWOState extends State<transferOWO> {
                                             NoTelp: future.data![0]['notelp'],
                                             //nominal penerima (nominal penerima saat ini + nominal yang dikirim)
                                             Nominal: nominaltf,
-                                            TanggalTransaksi: "22-06-2022");
+                                            TanggalTransaksi: date);
                                         DatabaseHistory.tambahData(
                                             history: dtPenerima);
                                         final dtupdatepenerima = User(
@@ -359,7 +351,7 @@ class _transferOWOState extends State<transferOWO> {
                                             NoTelp: snapshot.data![0]['notelp'],
                                             //nominal pengirim (nominal pengirim saat ini - nominal yang dikirim)
                                             Nominal: nominaltf,
-                                            TanggalTransaksi: "22-06-2022");
+                                            TanggalTransaksi: date);
                                         DatabaseHistory.tambahData(
                                             history: dtPengirim);
                                         final dtupdatepengirim = User(

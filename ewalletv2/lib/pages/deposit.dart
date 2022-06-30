@@ -6,6 +6,7 @@ import 'package:ewalletv2/pages/addRekening.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class deposit extends StatefulWidget {
   const deposit({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class deposit extends StatefulWidget {
 }
 
 class _depositState extends State<deposit> {
+  String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
   int nominaltf = 0;
   int saldo = 0;
   //String norek = "102847192";
@@ -141,7 +143,14 @@ class _depositState extends State<deposit> {
                                                             fontSize: 16),
                                                       ),
                                                     ),
-                                                    //Text("Saldo Rp ${balance}")
+                                                    Text(
+                                        NumberFormat.currency(locale: 'id')
+                                            .format(future.data![0]['uang']),
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
                                                   ],
                                                 ),
                                               )
@@ -251,7 +260,6 @@ class _depositState extends State<deposit> {
                                             ),
                                             SizedBox(height: 5),
                                             TextField(
-                                              textDirection: TextDirection.ltr,
                                               decoration: InputDecoration(
                                                 border: OutlineInputBorder(),
                                                 labelText: "Minimal Rp. 10.000",
@@ -385,17 +393,17 @@ class _depositState extends State<deposit> {
                                                                       Nominal:
                                                                           nominaltf,
                                                                       TanggalTransaksi:
-                                                                          "27-06-2022");
+                                                                          date);
                                                                   DatabaseHistory
                                                                       .tambahData(
                                                                           history:
                                                                               dthistory);
 
-                                                                  // Navigator.push(
-                                                                  //     context,
-                                                                  //     MaterialPageRoute(
-                                                                  //         builder: (context) =>
-                                                                  //             home()));
+                                                                  Navigator.push(
+                                                                      context,
+                                                                      MaterialPageRoute(
+                                                                          builder: (context) =>
+                                                                              home()));
                                                                 }
                                                               },
                                                               child: Text(
