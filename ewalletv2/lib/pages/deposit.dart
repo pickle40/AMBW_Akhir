@@ -153,7 +153,7 @@ class _depositState extends State<deposit> {
                                                           fontSize: 24,
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          color: Colors.white),
+                                                          color: Colors.black),
                                                     ),
                                                   ],
                                                 ),

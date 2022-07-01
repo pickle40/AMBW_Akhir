@@ -5,6 +5,7 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class tarikDana extends StatefulWidget {
   const tarikDana({Key? key}) : super(key: key);
@@ -14,6 +15,7 @@ class tarikDana extends StatefulWidget {
 }
 
 class _tarikDanaState extends State<tarikDana> {
+    String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
   int nominaltf = 0;
   int saldo = 0;
 
@@ -155,7 +157,6 @@ class _tarikDanaState extends State<tarikDana> {
                                     Container(
                                       width: 200,
                                       child: TextField(
-                                        textDirection: TextDirection.ltr,
                                         decoration: InputDecoration(
                                           hintText: "${nominaltf}",
                                           hintStyle: TextStyle(
@@ -209,7 +210,7 @@ class _tarikDanaState extends State<tarikDana> {
                                         Nama: future.data![0]['nama'],
                                         NoTelp: future.data![0]['notelp'],
                                         Nominal: nominaltf - 5000,
-                                        TanggalTransaksi: "27-06-2022");
+                                        TanggalTransaksi: date);
                                     DatabaseHistory.tambahData(
                                         history: dthistory);
 
