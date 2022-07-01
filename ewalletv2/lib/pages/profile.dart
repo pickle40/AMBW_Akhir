@@ -1,6 +1,7 @@
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/main.dart';
+import 'package:ewalletv2/pages/categorylist.dart';
 import 'package:ewalletv2/pages/editprofile.dart';
 import 'package:ewalletv2/pages/history.dart';
 import 'package:ewalletv2/pages/home.dart';
@@ -267,6 +268,44 @@ class _profileState extends State<profile> {
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            // decoration: BoxDecoration(
+                            //     border: Border(
+                            //         bottom: BorderSide(
+                            //             width: 1, color: Colors.grey))),
+                            child: Row(
+                              children: [
+                                Container(
+                                  // margin: EdgeInsets.only(right: 5),
+                                  child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    History()));
+                                      },
+                                      child: Text("Riwayat Transaksi")),
+                                ),
+                                Container(
+                                  child: TextButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    CategoryList()));
+                                      },
+                                      child: Text("Kategori")),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Row(
                         children: [
                           Container(
                             margin: EdgeInsets.fromLTRB(10, 15, 10, 20),
@@ -336,25 +375,25 @@ class _profileState extends State<profile> {
                           ))
                         ],
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                border: Border(
-                                    bottom: BorderSide(
-                                        width: 1, color: Colors.grey))),
-                            child: TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => History()));
-                                },
-                                child: Text("Riwayat Transaksi")),
-                          )
-                        ],
-                      ),
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.center,
+                      //   children: [
+                      //     Container(
+                      //       decoration: BoxDecoration(
+                      //           border: Border(
+                      //               bottom: BorderSide(
+                      //                   width: 1, color: Colors.grey))),
+                      //       child: TextButton(
+                      //           onPressed: () {
+                      //             Navigator.push(
+                      //                 context,
+                      //                 MaterialPageRoute(
+                      //                     builder: (context) => History()));
+                      //           },
+                      //           child: Text("Riwayat Transaksi")),
+                      //     )
+                      //   ],
+                      // ),
                       Row(
                         children: [
                           Expanded(

@@ -259,7 +259,7 @@ class _CategoryListState extends State<CategoryList> {
           ),
           body: StreamBuilder(
             stream: _kategori
-                .where("notelp", isEqualTo: "loggedInUser_noTelp")
+                .where("notelp", isEqualTo: loggedInUser_noTelp)
                 .snapshots(), // connect to fire
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               return (snapshot.connectionState == ConnectionState.waiting)
