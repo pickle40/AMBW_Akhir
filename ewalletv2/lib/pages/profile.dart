@@ -38,9 +38,10 @@ class _profileState extends State<profile> {
 
   Future<void> logout() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      prefs.setBool("isLoggedIn", false);
-    });
+    await prefs.clear();
+    // setState(() {
+    //   prefs.setBool("isLoggedIn", false);
+    // });
   }
 
   void _onItemTapped(int index) {
