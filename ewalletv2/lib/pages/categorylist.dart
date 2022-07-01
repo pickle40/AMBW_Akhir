@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testproject/register.dart';
+
+import 'profile.dart';
 
 class CategoryList extends StatefulWidget {
   @override
@@ -208,7 +211,13 @@ class _CategoryListState extends State<CategoryList> {
       home: Scaffold(
           appBar: AppBar(
             elevation: 0,
-            leading: Container(),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.push(context,
+                    new MaterialPageRoute(builder: (context) => profile()));
+              },
+            ),
             title: Text("Category"),
             bottom: PreferredSize(
               preferredSize: Size(3, 130),
@@ -259,7 +268,7 @@ class _CategoryListState extends State<CategoryList> {
           ),
           body: StreamBuilder(
             stream: _kategori
-                .where("notelp", isEqualTo: loggedInUser_noTelp)
+                .where("notelp", isEqualTo: "loggedInUser_noTelp")
                 .snapshots(), // connect to fire
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               return (snapshot.connectionState == ConnectionState.waiting)
