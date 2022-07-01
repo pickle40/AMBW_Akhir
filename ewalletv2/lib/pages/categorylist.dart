@@ -4,8 +4,6 @@ import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'profile.dart';
-
 class CategoryList extends StatefulWidget {
   @override
   State<CategoryList> createState() => _CategoryListState();
@@ -114,8 +112,8 @@ class _CategoryListState extends State<CategoryList> {
                         "Nama": Nama,
                         // "jumData": jumData
                       });
-                      final dtkategori = Kategori(
-                          Nama: nama, notelp: loggedInUser_noTelp);
+                      final dtkategori =
+                          Kategori(Nama: nama, notelp: loggedInUser_noTelp);
                       DatabaseKategori.tambahData(kategori: dtkategori);
 
                       _namaController.text = '';
@@ -214,19 +212,33 @@ class _CategoryListState extends State<CategoryList> {
     return MaterialApp(
       home: Scaffold(
           appBar: AppBar(
-            elevation: 0,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.push(context,
-                    new MaterialPageRoute(builder: (context) => profile()));
-              },
-            ),
+            leading: Container(),
             title: Text("Category"),
             bottom: PreferredSize(
               preferredSize: Size(3, 130),
               child: Column(
                 children: <Widget>[
+                  Container(
+                    color: Colors.blueAccent,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          onPressed: Navigator.of(context).pop,
+                          icon: Icon(
+                            Icons.arrow_back,
+                            color: Colors.black,
+                          ),
+                          color: Colors.blueAccent,
+                        ),
+                        Text(
+                          "Edit Kategori",
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.all(10),
                     child: Container(
@@ -272,7 +284,7 @@ class _CategoryListState extends State<CategoryList> {
           ),
           body: StreamBuilder(
             stream: _kategori
-                .where("notelp", isEqualTo: "loggedInUser_noTelp")
+                .where("notelp", isEqualTo: loggedInUser_noTelp)
                 .snapshots(), // connect to fire
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               return (snapshot.connectionState == ConnectionState.waiting)
@@ -291,8 +303,8 @@ class _CategoryListState extends State<CategoryList> {
                           return Column(
                             children: <Widget>[
                               Container(
-                                padding: EdgeInsets.only(left: 25),
-                                height: 73,
+                                padding: EdgeInsets.only(left: 16),
+                                height: 90,
                                 child: Row(children: <Widget>[
                                   Container(
                                     child: Column(
@@ -311,17 +323,91 @@ class _CategoryListState extends State<CategoryList> {
                                           ),
                                         ),
                                         Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.end,
                                           children: [
-                                            // Press this button to edit a single product
-                                            IconButton(
-                                                icon: const Icon(Icons.edit),
-                                                onPressed: () =>
-                                                    _update(documentSnapshot)),
-                                            // This icon button is used to delete a single product
-                                            IconButton(
-                                                icon: const Icon(Icons.delete),
-                                                onPressed: () => _delete(
-                                                    documentSnapshot.id)),
+                                            // // Press this button to edit a single product
+                                            // IconButton(
+                                            //     icon: const Icon(Icons.edit),
+                                            //     onPressed: () =>
+                                            //         _update(documentSnapshot)),
+                                            // // This icon button is used to delete a single product
+                                            // IconButton(
+                                            //     icon: const Icon(Icons.delete),
+                                            //     onPressed: () => _delete(
+                                            //         documentSnapshot.id)),
+                                            //Edit
+                                            Container(
+                                              child: Column(
+                                                children: [
+                                                  SizedBox.fromSize(
+                                                    size: Size(56, 56),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.lightBlue,
+                                                      onTap: () => _update(documentSnapshot),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .edit,
+                                                            color:
+                                                                Colors.lightBlueAccent,
+                                                          ),
+                                                          Text(
+                                                            "Edit",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.lightBlueAccent,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            //delete
+                                            Container(
+                                              child: Column(
+                                                children: [
+                                                  SizedBox.fromSize(
+                                                    size: Size(56, 56),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.redAccent,
+                                                      onTap: () => _delete(documentSnapshot.id),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .delete,
+                                                            color:
+                                                                Colors.red,
+                                                          ),
+                                                          Text(
+                                                            "Delete",
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.red,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ],
