@@ -50,7 +50,7 @@ class _depositState extends State<deposit> {
             title: Text("Deposit"),
           ),
           body: FutureBuilder<List>(
-              future: DatabaseUser.getUserData(notelptesting),
+              future: DatabaseUser.getUserData(loggedInUser_noTelp),
               builder: (context, future) {
                 if (future.hasData && future.data != null) {
                   return ListView(
@@ -144,13 +144,17 @@ class _depositState extends State<deposit> {
                                                       ),
                                                     ),
                                                     Text(
-                                        NumberFormat.currency(locale: 'id')
-                                            .format(future.data![0]['uang']),
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
+                                                      NumberFormat.currency(
+                                                              locale: 'id')
+                                                          .format(
+                                                              future.data![0]
+                                                                  ['uang']),
+                                                      style: TextStyle(
+                                                          fontSize: 24,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: Colors.white),
+                                                    ),
                                                   ],
                                                 ),
                                               )
