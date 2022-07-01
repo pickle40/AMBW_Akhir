@@ -275,7 +275,7 @@ class _RegisterState extends State<Register> {
                                 DatabaseUser.tambahData(user: dtUser);
 
                                 final dtKategori = Kategori(
-                                    Nama: "", jumData: 0, notelp: telp);
+                                    Nama: "", notelp: telp);
                                 DatabaseKategori.tambahData(
                                     kategori: dtKategori);
                                 Navigator.push(

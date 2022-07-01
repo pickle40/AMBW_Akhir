@@ -115,7 +115,7 @@ class _CategoryListState extends State<CategoryList> {
                         // "jumData": jumData
                       });
                       final dtkategori = Kategori(
-                          Nama: nama, jumData: 0, notelp: loggedInUser_noTelp);
+                          Nama: nama, notelp: loggedInUser_noTelp);
                       DatabaseKategori.tambahData(kategori: dtkategori);
 
                       _namaController.text = '';

@@ -1,15 +1,15 @@
 class Kategori {
   final String Nama;
   final String notelp;
-  final int jumData;
+  // final int jumData;
 
-  Kategori({required this.Nama, required this.jumData, required this.notelp});
+  Kategori({required this.Nama, required this.notelp});
 
   Map<String, dynamic> toJson() {
-    return {"Nama": Nama, "jumData": jumData, "notelp": notelp};
+    return {"Nama": Nama, "notelp": notelp};
   }
 
   factory Kategori.fromJason(Map<String, dynamic> json) {
-    return Kategori(Nama: json['Nama'], jumData: json['jumData'], notelp: json['notelp']);
+    return Kategori(Nama: json['Nama'], notelp: json['notelp']);
   }
 }
