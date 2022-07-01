@@ -143,7 +143,7 @@ class _transferBankState extends State<transferBank> {
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.black),
+                                            color: Colors.white),
                                       ),
                                       ],
                                     ),
