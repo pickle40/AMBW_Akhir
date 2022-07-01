@@ -288,7 +288,7 @@ class _CategoryListState extends State<CategoryList> {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            data['nama'],
+                                            data['nama'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
@@ -341,7 +341,7 @@ class _CategoryListState extends State<CategoryList> {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            data['nama'],
+                                            data['nama'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
