@@ -81,6 +81,7 @@ class _transferBankState extends State<transferBank> {
                 child: FutureBuilder<List>(
                     future: DatabaseUser.getUserData(loggedInUser_noTelp),
                     builder: (context, future) {
+                      if(future.hasData && future.data != null) {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -266,7 +267,12 @@ class _transferBankState extends State<transferBank> {
                           ),
                         ],
                       );
-                    }),
+                    }
+                    else {
+                      return Center(child: const CircularProgressIndicator());
+                    }
+                  },
+                ),
               ),
             ],
           ),

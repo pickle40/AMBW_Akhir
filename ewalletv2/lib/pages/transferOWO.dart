@@ -321,8 +321,8 @@ class _transferOWOState extends State<transferOWO> {
                                             subKategori: "Transfer",
                                             //Nama Pengirim
                                             Nama: future.data![0]['nama'],
-                                            //nomor telepon pengirim
-                                            NoTelp: future.data![0]['notelp'],
+                                            //nomor telepon penerima
+                                            NoTelp: snapshot.data![0]['notelp'],
                                             //nominal penerima (nominal penerima saat ini + nominal yang dikirim)
                                             Nominal: nominaltf,
                                             TanggalTransaksi: date);
@@ -348,8 +348,8 @@ class _transferOWOState extends State<transferOWO> {
                                             subKategori: menuItem,
                                             //Nama Penerima
                                             Nama: snapshot.data![0]['nama'],
-                                            //nomor telepon penerima
-                                            NoTelp: snapshot.data![0]['notelp'],
+                                            //nomor telepon pengirim
+                                            NoTelp: future.data![0]['notelp'],
                                             //nominal pengirim (nominal pengirim saat ini - nominal yang dikirim)
                                             Nominal: nominaltf,
                                             TanggalTransaksi: date);
