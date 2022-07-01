@@ -3,6 +3,7 @@ import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/transfer.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -72,8 +73,13 @@ class _transferOWOState extends State<transferOWO> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           IconButton(
-                            onPressed: Navigator.of(context).pop,
-                            // onPressed: () {},
+                            //onPressed: Navigator.of(context).pop,
+                            onPressed: () {
+                              Navigator.push(
+                                            context,
+                                            new MaterialPageRoute(
+                                                builder: (context) => Transfer()));
+                            },
                             icon: Icon(
                               Icons.arrow_back,
                               color: Colors.black,
