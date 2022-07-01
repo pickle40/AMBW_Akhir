@@ -372,7 +372,7 @@ class _depositState extends State<deposit> {
                                                                               [
                                                                               'norek'],
                                                                       notelp:
-                                                                          notelptesting,
+                                                                          loggedInUser_noTelp,
                                                                       uang:
                                                                           saldo,
                                                                       passcode:
@@ -393,7 +393,7 @@ class _depositState extends State<deposit> {
                                                                           [
                                                                           'nama'],
                                                                       NoTelp:
-                                                                          notelptesting,
+                                                                          loggedInUser_noTelp,
                                                                       Nominal:
                                                                           nominaltf,
                                                                       TanggalTransaksi:
