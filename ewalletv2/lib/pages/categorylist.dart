@@ -1,7 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ewalletv2/database/dataClass/dcKategori.dart';
+import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 
 import 'profile.dart';
 
@@ -113,6 +114,9 @@ class _CategoryListState extends State<CategoryList> {
                         "Nama": Nama,
                         // "jumData": jumData
                       });
+                      final dtkategori = Kategori(
+                          Nama: nama, jumData: 0, notelp: loggedInUser_noTelp);
+                      DatabaseKategori.tambahData(kategori: dtkategori);
 
                       _namaController.text = '';
                       // _jumDataController.text = '';
