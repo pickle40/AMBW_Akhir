@@ -384,7 +384,7 @@ class _transferOWOState extends State<transferOWO> {
                                     ),
                                   );
                                 } else {
-                                  return Text("Tidak ada Data yang ditemukan");
+                                  return Center(child: const CircularProgressIndicator());
                                 }
                               },
                             ),
@@ -396,7 +396,7 @@ class _transferOWOState extends State<transferOWO> {
                 ),
               );
             } else {
-              return Text("Data tidak ditemukan");
+              return Center(child: const CircularProgressIndicator());
             }
           },
         ),
