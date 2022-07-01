@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names, prefer_const_constructors, avoid_unnecessary_containers, sized_box_for_whitespace
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
@@ -25,8 +23,8 @@ class _transferOWOState extends State<transferOWO> {
   int saldoPengirim = 0;
 
   //testing
-  String notelptesting = "031";
-  String notelppenerimatesting = "081322116644";
+  // String notelptesting = "031";
+  // String notelppenerimatesting = "081322116644";
 
   var menuItem;
 
@@ -358,13 +356,13 @@ class _transferOWOState extends State<transferOWO> {
                                         DatabaseHistory.tambahData(
                                             history: dtPengirim);
                                         final dtupdatepengirim = User(
-                                            alamat: snapshot.data![0]['alamat'],
-                                            email: snapshot.data![0]['email'],
-                                            nama: snapshot.data![0]['nama'],
-                                            norek: snapshot.data![0]['norek'],
-                                            notelp: snapshot.data![0]['notelp'],
+                                            alamat: future.data![0]['alamat'],
+                                            email: future.data![0]['email'],
+                                            nama: future.data![0]['nama'],
+                                            norek: future.data![0]['norek'],
+                                            notelp: future.data![0]['notelp'],
                                             uang: saldoPengirim,
-                                            passcode: snapshot.data![0]
+                                            passcode: future.data![0]
                                                 ['passcode']);
                                         DatabaseUser.updateData(
                                             data: dtupdatepengirim);
