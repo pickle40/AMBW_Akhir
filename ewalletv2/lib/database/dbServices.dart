@@ -121,9 +121,20 @@ class DatabaseUser {
         .snapshots();
   }
 
+  static Future<List> validateLogin(String email, String passcode) async {
+    QuerySnapshot querySnapshot = await tblUser
+        .where('email', isEqualTo: email)
+        .where('passcode', isEqualTo: passcode)
+        .get();
+    final data = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return data;
+  }
+
   static Future<List> getUserDataLogin(String email, String passcode) async {
-    QuerySnapshot querySnapshot =
-        await tblUser.where('email', isEqualTo: email).where('passcode', isEqualTo: passcode).get();
+    QuerySnapshot querySnapshot = await tblUser
+        .where('email', isEqualTo: email)
+        .where('passcode', isEqualTo: passcode)
+        .get();
     final data = querySnapshot.docs.map((doc) => doc.data()).toList();
     return data;
   }

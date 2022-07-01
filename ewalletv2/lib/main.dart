@@ -57,6 +57,10 @@ class _MyAppState extends State<MyApp> {
     prefs.setBool("isLoggedIn", isLoggedIn);
   }
 
+  Future<List> cekLogin(String email, String passcode) {
+    return DatabaseUser.validateLogin(email, passcode);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -323,7 +327,7 @@ class _MyAppState extends State<MyApp> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
                           final String email = _emailcontroller.text.trim();
                           final String password = _passcontroller.text.trim();
 
@@ -340,42 +344,62 @@ class _MyAppState extends State<MyApp> {
                               ),
                             );
                           } else {
-                            StreamBuilder<QuerySnapshot>(
-                              stream: DatabaseUser.login(
-                                  email: email, passcode: password),
-                              builder: (context, snapshot) {
-                                if (snapshot.hasData || snapshot.data != null) {
-                                  for (int i = 0;
-                                      i < snapshot.data!.docs.length;
-                                      i++) {
-                                    DocumentSnapshot getUser =
-                                        snapshot.data!.docs[i];
-                                    user = getUser['notelp'];
-                                    setLoggedInUserData(
-                                        getUser['notelp'], true);
-                                  }
-                                  return ElevatedButton(
-                                      onPressed: () {}, child: Text(user));
-                                } else {
-                                  return Center(
-                                    child: CircularProgressIndicator(
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                        Colors.pinkAccent,
-                                      ),
-                                    ),
-                                  );
-                                }
-                              },
-                            );
+                            // print(email);
+                            // print(password);
+                            var datalogin = await DatabaseUser.validateLogin(
+                                email, password);
+
+                            if (datalogin.length > 0) {
+                              setLoggedInUserData(datalogin[0]['notelp'], true);
+                              Navigator.push(
+                                  context,
+                                  new MaterialPageRoute(
+                                      builder: (context) => home()));
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Email atau Passcode tidak cocok!"),
+                                ),
+                              );
+                            }
+
+                            // StreamBuilder<QuerySnapshot>(
+                            //   stream: DatabaseUser.login(
+                            //       email: email, passcode: password),
+                            //   builder: (context, snapshot) {
+                            //     if (snapshot.hasData || snapshot.data != null) {
+                            //       for (int i = 0;
+                            //           i < snapshot.data!.docs.length;
+                            //           i++) {
+                            //         DocumentSnapshot getUser =
+                            //             snapshot.data!.docs[i];
+                            //         user = getUser['notelp'];
+                            //         setLoggedInUserData(
+                            //             getUser['notelp'], true);
+                            //       }
+                            //       return ElevatedButton(
+                            //           onPressed: () {}, child: Text(user));
+                            //     } else {
+                            //       return Center(
+                            //         child: CircularProgressIndicator(
+                            //           valueColor: AlwaysStoppedAnimation<Color>(
+                            //             Colors.pinkAccent,
+                            //           ),
+                            //         ),
+                            //       );
+                            //     }
+                            //   },
+                            // );
                             // Navigator.push(
                             //     context,
                             //     new MaterialPageRoute(
                             //         builder: (context) =>
                             //             transferOWO(userlogin: user)));
-                            Navigator.push(
-                                context,
-                                new MaterialPageRoute(
-                                    builder: (context) => home()));
+                            // Navigator.push(
+                            //     context,
+                            //     new MaterialPageRoute(
+                            //         builder: (context) => home()));
                           }
                         },
                         child: Text("Sign In"),

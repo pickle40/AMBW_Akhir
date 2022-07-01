@@ -107,44 +107,52 @@ class _History extends State {
                                   element["Nama"],
                                   style: TextStyle(fontSize: 12),
                                 ),
-                                Text(element["subKategori"].toString().isEmpty ? "" : element["subKategori"].toString(),
+                                Text(
+                                  element["subKategori"].toString().isEmpty
+                                      ? ""
+                                      : element["subKategori"].toString(),
                                   style: TextStyle(fontSize: 12),
                                 ),
                               ],
                             ),
                           ),
                           Container(
-                            child: element["Kategori"].toUpperCase() == "PENGELUARAN" ? 
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  element["Kategori"].toUpperCase(),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  "- " + NumberFormat.currency(locale: 'id')
-                                      .format(element["Nominal"]),
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ],
-                            ) :
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  element["Kategori"].toUpperCase(),
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                                Text(
-                                  "+ " + NumberFormat.currency(locale: 'id')
-                                      .format(element["Nominal"]),
-                                  style: TextStyle(color: Colors.green),
-                                ),
-                              ],
-                            ),
+                            child: element["Kategori"].toUpperCase() ==
+                                    "PENGELUARAN"
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        element["Kategori"].toUpperCase(),
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "- " +
+                                            NumberFormat.currency(locale: 'id')
+                                                .format(element["Nominal"]),
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ],
+                                  )
+                                : Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        element["Kategori"].toUpperCase(),
+                                        style: TextStyle(fontSize: 12),
+                                      ),
+                                      Text(
+                                        "+ " +
+                                            NumberFormat.currency(locale: 'id')
+                                                .format(element["Nominal"]),
+                                        style: TextStyle(color: Colors.green),
+                                      ),
+                                    ],
+                                  ),
                           )
                         ],
                       ),
