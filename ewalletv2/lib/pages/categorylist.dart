@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-// import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategoryList extends StatefulWidget {
   @override
@@ -10,72 +9,72 @@ class CategoryList extends StatefulWidget {
 
 class Cart {
   String id;
-  final String nama;
-  final int noTelp, jumData;
+  final String Nama, noTelp;
+  final int jumData;
 
   Cart({
     this.id = "",
-    required this.nama,
+    required this.Nama,
     required this.jumData,
     required this.noTelp,
   });
 
   Map<String, dynamic> toJson() =>
-      {'id': id, 'nama': nama, 'jumData': jumData, 'noTelp': noTelp};
+      {'id': id, 'Nama': Nama, 'jumData': jumData, 'noTelp': noTelp};
 }
 
 class _CategoryListState extends State<CategoryList> {
-  String nama = "";
+  String Nama = "";
   final TextEditingController _namaController = TextEditingController();
   final TextEditingController _jumDataController = TextEditingController();
   final TextEditingController _noTelpController = TextEditingController();
 
-  final CollectionReference _kategori =
-      FirebaseFirestore.instance.collection('Kategori');
+  final CollectionReference _kategori = FirebaseFirestore.instance
+      .collection('Kategori'); //.where('noTelp', isEqualTo: noTelp);
 
   String? noTelp;
   int? jumData;
 
   List<Cart> data = [
     Cart(
-      nama: 'test 1',
+      Nama: 'test 1',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 2',
+      Nama: 'test 2',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 3',
+      Nama: 'test 3',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 4',
+      Nama: 'test 4',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 5',
+      Nama: 'test 5',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 6',
+      Nama: 'test 6',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 7',
+      Nama: 'test 7',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
     Cart(
-      nama: 'test 8',
+      Nama: 'test 8',
       jumData: 0,
-      noTelp: 031123,
+      noTelp: '031123',
     ),
   ];
 
@@ -98,14 +97,6 @@ class _CategoryListState extends State<CategoryList> {
                   controller: _namaController,
                   decoration: const InputDecoration(labelText: 'Nama'),
                 ),
-                // TextField(
-                //   keyboardType:
-                //   const TextInputType.numberWithOptions(decimal: true),
-                //   controller: _jumDataController,
-                //   decoration: const InputDecoration(
-                //     labelText: 'Jumlah Data',
-                //   ),
-                // ),
                 const SizedBox(
                   height: 20,
                 ),
@@ -116,7 +107,7 @@ class _CategoryListState extends State<CategoryList> {
                     // final int? jumData = _jumDataController.text;
                     if (nama != null) {
                       await _kategori.add({
-                        "nama": nama,
+                        "Nama": Nama,
                         // "jumData": jumData
                       });
 
@@ -132,10 +123,9 @@ class _CategoryListState extends State<CategoryList> {
         });
   }
 
-  // _CategoryListState(this.CartList);
   Future<void> _update([DocumentSnapshot? documentSnapshot]) async {
     if (documentSnapshot != null) {
-      _namaController.text = documentSnapshot['nama'];
+      _namaController.text = documentSnapshot['Nama'];
     }
 
     await showModalBottomSheet(
@@ -162,11 +152,11 @@ class _CategoryListState extends State<CategoryList> {
                 ElevatedButton(
                   child: const Text('Update'),
                   onPressed: () async {
-                    final String nama = _namaController.text;
-                    if (nama != null) {
+                    final String Nama = _namaController.text;
+                    if (Nama != null) {
                       await _kategori
                           .doc(documentSnapshot!.id)
-                          .update({"nama": nama});
+                          .update({"Nama": Nama});
                       _namaController.text = '';
                       Navigator.of(context).pop();
                     }
@@ -185,16 +175,25 @@ class _CategoryListState extends State<CategoryList> {
         content: Text('You have successfully deleted a category')));
   }
 
-  void iniState() {
-    super.initState();
-    // addData();
-    // delData();
-  }
-
   @override
   void dispose() {
     _namaController.dispose();
     super.dispose();
+  }
+
+  String loggedInUser_noTelp = "";
+
+  @override
+  void initState() {
+    super.initState();
+    getLoggedInUserData();
+  }
+
+  Future<void> getLoggedInUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      loggedInUser_noTelp = prefs.getString("loggedIn_noTelp").toString();
+    });
   }
 
   @override
@@ -202,7 +201,7 @@ class _CategoryListState extends State<CategoryList> {
     //search by Category Name
     List<Cart> searchlist = data
         .where((element) =>
-            element.nama.toLowerCase().contains(nama.toLowerCase()))
+            element.Nama.toLowerCase().contains(Nama.toLowerCase()))
         .toList();
 
     return MaterialApp(
@@ -227,7 +226,7 @@ class _CategoryListState extends State<CategoryList> {
                         controller: _namaController,
                         onFieldSubmitted: (covariant) {
                           setState(() {
-                            nama = covariant;
+                            Nama = covariant;
                           });
                         },
                         decoration: InputDecoration(
@@ -246,7 +245,7 @@ class _CategoryListState extends State<CategoryList> {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 15, top: 3),
                       child: Text(
-                        "Search for $nama",
+                        "Search for $Nama",
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -259,7 +258,9 @@ class _CategoryListState extends State<CategoryList> {
             ),
           ),
           body: StreamBuilder(
-            stream: _kategori.snapshots(), // connect to fire
+            stream: _kategori
+                .where("notelp", isEqualTo: "loggedInUser_noTelp")
+                .snapshots(), // connect to fire
             builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
               return (snapshot.connectionState == ConnectionState.waiting)
                   ? Center(
@@ -273,7 +274,7 @@ class _CategoryListState extends State<CategoryList> {
                         var data = snapshot.data!.docs[index].data()
                             as Map<String, dynamic>;
 
-                        if (nama.isEmpty) {
+                        if (Nama.isEmpty) {
                           return Column(
                             children: <Widget>[
                               Container(
@@ -288,7 +289,7 @@ class _CategoryListState extends State<CategoryList> {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            data['nama'].toString(),
+                                            data['Nama'].toString(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
@@ -326,7 +327,7 @@ class _CategoryListState extends State<CategoryList> {
                         if (data['nama']
                             .toString()
                             .toLowerCase()
-                            .startsWith(nama.toLowerCase())) {
+                            .startsWith(Nama.toLowerCase())) {
                           return Column(
                             children: <Widget>[
                               Container(
@@ -341,7 +342,7 @@ class _CategoryListState extends State<CategoryList> {
                                         Padding(
                                           padding: EdgeInsets.only(top: 10),
                                           child: Text(
-                                            data['nama'].toString(),
+                                            data['Nama'],
                                             style: TextStyle(
                                               fontWeight: FontWeight.bold,
                                               fontSize: 20,
@@ -394,7 +395,7 @@ class _CategoryListState extends State<CategoryList> {
                                         controller: _namaController,
                                         onFieldSubmitted: (covariant) {
                                           setState(() {
-                                            nama = covariant;
+                                            Nama = covariant;
                                           });
                                         },
                                         decoration: InputDecoration(
