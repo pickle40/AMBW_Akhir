@@ -15,6 +15,7 @@ class transferBank extends StatefulWidget {
 
 class _transferBankState extends State<transferBank> {
   String loggedInUser_noTelp = "";
+  String norekening = "";
   String date = DateFormat("dd-MM-yyyy").format(DateTime.now());
   int nominaltf = 0;
   int saldo = 0;
@@ -98,6 +99,24 @@ class _transferBankState extends State<transferBank> {
                                   });
                                 },
                                 value: menuItem,
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Masukkan nomor rekening tujuan",
+                                style: TextStyle(
+                                  color: Colors.blueGrey,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              TextField(
+                                decoration: InputDecoration(
+                                  border: OutlineInputBorder(),
+                                  labelText: "Nomor Rekening Tujuan",
+                                ),
+                                onChanged: (norek) {
+                                  norekening = norek;
+                                },
                               ),
                               SizedBox(height: 25),
                               Text(
