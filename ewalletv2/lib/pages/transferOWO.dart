@@ -165,13 +165,13 @@ class _transferOWOState extends State<transferOWO> {
                                           ),
                                         ),
                                         Text(
-                                        NumberFormat.currency(locale: 'id')
-                                            .format(future.data![0]['uang']),
-                                        style: TextStyle(
-                                            fontSize: 24,
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black),
-                                      ),
+                                          NumberFormat.currency(locale: 'id')
+                                              .format(future.data![0]['uang']),
+                                          style: TextStyle(
+                                              fontSize: 24,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.black),
+                                        ),
                                       ],
                                     ),
                                   )
@@ -315,7 +315,9 @@ class _transferOWOState extends State<transferOWO> {
                                     child: ElevatedButton(
                                       onPressed: () {
                                         //Untuk Penerima
-                                        saldoPenerima = snapshot.data![0]['uang'] + nominaltf;
+                                        saldoPenerima = snapshot.data![0]
+                                                ['uang'] +
+                                            nominaltf;
                                         final dtPenerima = History(
                                             Kategori: "Pendapatan",
                                             subKategori: "Transfer",
@@ -335,7 +337,8 @@ class _transferOWOState extends State<transferOWO> {
                                             norek: snapshot.data![0]['norek'],
                                             notelp: snapshot.data![0]['notelp'],
                                             uang: saldoPenerima,
-                                            passcode: snapshot.data![0]['passcode']);
+                                            passcode: snapshot.data![0]
+                                                ['passcode']);
                                         DatabaseUser.updateData(
                                             data: dtupdatepenerima);
 
@@ -361,7 +364,8 @@ class _transferOWOState extends State<transferOWO> {
                                             norek: snapshot.data![0]['norek'],
                                             notelp: snapshot.data![0]['notelp'],
                                             uang: saldoPengirim,
-                                            passcode: snapshot.data![0]['passcode']);
+                                            passcode: snapshot.data![0]
+                                                ['passcode']);
                                         DatabaseUser.updateData(
                                             data: dtupdatepengirim);
 
@@ -372,8 +376,7 @@ class _transferOWOState extends State<transferOWO> {
                                       },
                                       child: Text("Kirim Sekarang"),
                                       style: OutlinedButton.styleFrom(
-                                        backgroundColor:
-                                            Colors.lightBlueAccent,
+                                        backgroundColor: Colors.lightBlueAccent,
                                         fixedSize: Size.fromWidth(350),
                                         shape: RoundedRectangleBorder(
                                           borderRadius:
