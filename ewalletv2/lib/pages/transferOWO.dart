@@ -170,7 +170,7 @@ class _transferOWOState extends State<transferOWO> {
                                         style: TextStyle(
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                            color: Colors.black),
                                       ),
                                       ],
                                     ),

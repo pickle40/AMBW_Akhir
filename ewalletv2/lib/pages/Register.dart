@@ -1,3 +1,4 @@
+import 'package:ewalletv2/database/dataClass/dcKategori.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:flutter/material.dart';
@@ -209,7 +210,8 @@ class _RegisterState extends State<Register> {
                           final String name = _namecontroller.text.trim();
                           final String telp = _telpcontroller.text.trim();
                           final String alamat = _alamatcontroller.text.trim();
-                          final String norekening = _norekcontroller.text.trim();
+                          final String norekening =
+                              _norekcontroller.text.trim();
 
                           if (email.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
@@ -244,10 +246,11 @@ class _RegisterState extends State<Register> {
                           } else if (norekening.isEmpty) {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text("Nomor Rekening kamu masih kosong"),
+                                content:
+                                    Text("Nomor Rekening kamu masih kosong"),
                               ),
                             );
-                          }else {
+                          } else {
                             // context
                             //     .read<AuthService>()
                             //     .Register(email, password).then((value) async {
@@ -264,6 +267,10 @@ class _RegisterState extends State<Register> {
                                 uang: 0,
                                 passcode: password);
                             DatabaseUser.tambahData(user: dtUser);
+
+                            final dtKategori =
+                                Kategori(Nama: "", jumData: 0, notelp: telp);
+                            DatabaseKategori.tambahData(kategori: dtKategori);
                             Navigator.push(
                                 context,
                                 new MaterialPageRoute(
