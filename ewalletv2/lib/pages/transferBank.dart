@@ -2,6 +2,7 @@ import 'package:ewalletv2/database/dataClass/dcHistory.dart';
 import 'package:ewalletv2/database/dataClass/dcUsers.dart';
 import 'package:ewalletv2/database/dbServices.dart';
 import 'package:ewalletv2/pages/home.dart';
+import 'package:ewalletv2/pages/paymentSuccess.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
@@ -264,7 +265,7 @@ class _transferBankState extends State<transferBank> {
                                               context,
                                               new MaterialPageRoute(
                                                   builder: (context) =>
-                                                      home()));
+                                                      paymentSuccess()));
                                         } else {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
