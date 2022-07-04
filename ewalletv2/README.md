@@ -1,16 +1,47 @@
-# ewalletv2
+Proyek E-Wallet Kelompok 6
 
-A new Flutter project.
+Dibuat oleh:
+1. Felicia Yuli W - m26416080
+2. David Riski Tanoto - C14190003
+3. Agung Wibowo - C14190074
 
-## Getting Started
+Video Hasil Akhir Proyek:
+https://drive.google.com/file/d/1CUJh7rha6deAUtiWAF_a0aeLa2vGojWI/view
 
-This project is a starting point for a Flutter application.
+Job Desc:
+1. David Riski Tanoto : transfer, deposit, tarik dana
+2. Agung Wibowo : History transaksi, Profile, HomePage
+3. Felicia : halaman add remove kategori, Register, Konfirmasi Transaksi, dan Login Logout
 
-A few resources to get you started if this is your first Flutter project:
+Rincian Halaman E-Wallet:
+1. Halaman Login 
+Text Field, butuh Database, button untuk ke halaman register apabila belum terdaftar.
+3. Halaman Logout 
+SnackBar, dan akan diarahkan ke halaman Login 1
+4. Halaman Register
+Snackbar, database, TextField, btn daftar, apabila sudah daftar maka akan diarahkan he halaman login 2
+5. Halaman Home
+Text untuk tampilan jumlah uang yg dimiliki, database, Icon, IconButton untuk button fitur seperti deposit, transfer, history, dan add kategori.
+6. Halaman Transfer
+Textfield untuk input nomor wallet yg terdaftar, nominal, dan text pesan (optional). Butuh database dan button kirim.
+7. Halaman Deposit dan Tarik Dana
+Butuh database, Snackbar, TextField untuk nominal, Text untuk menampilkan nama dan nomor rekening. Button untuk melakukan tarik atau deposit.
+8. Halaman History
+Butuh Database, ListView, Text berisi nama penerima, nominal, dan tanggal pengiriman
+9. Halaman Profile
+Butuh database, text berupa seluruh data pribadi, Button Change Password , Button Logout, SnackBar 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Daftar Pustaka:
+1. OutlinedButton
+- https://www.javatpoint.com/flutter-buttons
+- https://api.flutter.dev/flutter/material/OutlinedButton-class.html
+- https://www.youtube.com/watch?v=wvhkomzr0dU
+- https://www.youtube.com/watch?v=xoT7l0C8MS4
+- https://www.youtube.com/watch?v=nDmGGi_RlDM
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+2. IconButton
+- https://www.flutterbeads.com/button-with-icon-and-text-flutter/
+
+3. Scan QR
+- https://pub.dev/packages/qr_code_scanner
+- https://www.youtube.com/watch?v=hHehIGfX_yU
