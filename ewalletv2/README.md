@@ -6,7 +6,7 @@ Dibuat oleh:
 3. Agung Wibowo - C14190074
 
 Video Hasil Akhir Proyek:
-https://drive.google.com/file/d/1CUJh7rha6deAUtiWAF_a0aeLa2vGojWI/view
+https://drive.google.com/file/d/1rn35OrfBz6dzu8MuSgMOHBaWkG6K_TAj/view?usp=sharing
 
 Job Desc:
 1. David Riski Tanoto : transfer, deposit, tarik dana
